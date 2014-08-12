@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +22,7 @@ public class CustomDialog extends AlertDialog {
     private TextView mTitleView, mContentView;
     private Button mConfirmView, mCancelView;
     private Typeface mTypeface;
+    private ClickListener mCallbacks;
 
     public CustomDialog(Context _context){
         super(_context);
@@ -43,6 +45,12 @@ public class CustomDialog extends AlertDialog {
                 R.layout.dialog_custom,
                 null);
 
+        try {
+            mCallbacks = (ClickListener) mContext;
+        } catch (ClassCastException e) {
+            Log.e("L DIALOGS", mContext.toString() + " must implement ClickListener");
+        }
+
         mTitleView = (TextView) mRootView.findViewById(R.id.dialog_custom_title);
         mContentView = (TextView) mRootView.findViewById(R.id.dialog_custom_content);
         mConfirmView = (Button) mRootView.findViewById(R.id.dialog_custom_confirm);
@@ -58,7 +66,6 @@ public class CustomDialog extends AlertDialog {
         setListeners();
 
         super.setView(mRootView);
-        super.show();
     }
 
     private void setListeners(){
@@ -66,6 +73,8 @@ public class CustomDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 // Code when positive button is clicked.
+                if(mCallbacks != null)
+                    mCallbacks.onConfirmClick();
                 dismiss();
             }
         });
@@ -74,6 +83,8 @@ public class CustomDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 // Code when negative button is clicked.
+                if(mCallbacks != null)
+                    mCallbacks.onCancelClick();
                 dismiss();
             }
         });
@@ -117,5 +128,10 @@ public class CustomDialog extends AlertDialog {
 
     public String getCancel(){
         return mCancel;
+    }
+
+    public interface ClickListener{
+        public void onConfirmClick();
+        public void onCancelClick();
     }
 }
