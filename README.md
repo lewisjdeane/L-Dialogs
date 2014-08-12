@@ -3,6 +3,9 @@
 * * *
 
 A small library replicating the new dialogs in android L.
+
+https://github.com/lewisjdeane/L-Dialogs/raw/master/app/src/main/res/screenshots/screen1.png
+
 * * *
 
 # Usage (Android Studio):
