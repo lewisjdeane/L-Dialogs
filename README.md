@@ -10,7 +10,7 @@ A small library replicating the new dialogs in android L.
 
 # Usage (Android Studio):
 
-Download the aar here: https://drive.google.com/open?id=0BxdWjlYnGWzgakUwOUtjd2NqV3M&authuser=0
+Download the aar here: https://drive.google.com/file/d/0BxdWjlYnGWzgakUwOUtjd2NqV3M/edit?usp=sharing
 
 You can rename the aar and then place it in the libs directory of your project.
 
