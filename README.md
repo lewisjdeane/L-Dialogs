@@ -36,6 +36,9 @@ CustomDialog customDialog = new CustomDialog(Context, Title, Content, PositiveTe
 or
 CustomDialog customDialog = new CustomDialog(Context);
 
+and then 
+
+customDialog.show();
 ```
 
 Method calls are also available
@@ -46,6 +49,19 @@ customDialog.setTitle(String title);
 customDialog.setContent(String content);
 customDialog.setConfirm(String confirm);
 customDialog.setCancel(String cancel);
+
+```
+
+In order to set the click listeners for the two buttons the activity that created the CustomDialog must implement CustomDialog.ClickListener, and then use the methods
+
+```java
+public void onConfirmClick(){
+...
+}
+
+public void onCancelClick(){
+...
+}
 
 ```
 
