@@ -3,11 +3,14 @@
 * * *
 
 A small library replicating the new dialogs in android L.
+
+!["Screenshot 1"](https://github.com/lewisjdeane/L-Dialogs/raw/master/app/src/main/res/screenshots/screen3.png)
+
 * * *
 
 # Usage (Android Studio):
 
-Download the aar here: https://drive.google.com/open?id=0BxdWjlYnGWzgakUwOUtjd2NqV3M&authuser=0
+Download the aar here: https://www.dropbox.com/s/uqey0k7m3g45ky4/app.aar
 
 You can rename the aar and then place it in the libs directory of your project.
 
