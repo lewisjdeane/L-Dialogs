@@ -10,26 +10,25 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-
-/**
- * Created by Lewis on 12/08/2014.
- */
 public class CustomDialog extends AlertDialog {
 
     private Context mContext;
     private View mRootView;
-    private String mTitle, mContent, mConfirm, mCancel;
-    private TextView mTitleView, mContentView;
-    private Button mConfirmView, mCancelView;
+    private View[] mViews = new View[4];
+    private String[] mStrings = new String[]{"", "", "", ""};
     private Typeface mTypeface;
     private ClickListener mCallbacks;
 
+    /* Passing in '' as any value will result in that textview or button being hidden.
+
+    /* Basic constructor */
     public CustomDialog(Context _context){
         super(_context);
         mContext = _context;
         init();
     }
 
+    /* Constructor for title, content, confirm text, cancel text */
     public CustomDialog(Context _context, String _title, String _content, String _confirm, String _cancel){
         super(_context);
         mContext = _context;
@@ -38,6 +37,16 @@ public class CustomDialog extends AlertDialog {
         setContent(_content);
         setConfirm(_confirm);
         setCancel(_cancel);
+    }
+
+    /* Constructor for title, content and one button. */
+    public CustomDialog(Context _context, String _title, String _content, String _confirm){
+        super(_context);
+        mContext = _context;
+        init();
+        setTitle(_title);
+        setContent(_content);
+        setConfirm(_confirm);
     }
 
     private void init(){
@@ -51,17 +60,12 @@ public class CustomDialog extends AlertDialog {
             Log.e("L DIALOGS", mContext.toString() + " must implement ClickListener");
         }
 
-        mTitleView = (TextView) mRootView.findViewById(R.id.dialog_custom_title);
-        mContentView = (TextView) mRootView.findViewById(R.id.dialog_custom_content);
-        mConfirmView = (Button) mRootView.findViewById(R.id.dialog_custom_confirm);
-        mCancelView = (Button) mRootView.findViewById(R.id.dialog_custom_cancel);
+        mViews[0] = mRootView.findViewById(R.id.dialog_custom_title);
+        mViews[1] = mRootView.findViewById(R.id.dialog_custom_content);
+        mViews[2] = mRootView.findViewById(R.id.dialog_custom_confirm);
+        mViews[3] = mRootView.findViewById(R.id.dialog_custom_cancel);
 
         mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
-
-        mTitleView.setTypeface(mTypeface);
-        mContentView.setTypeface(mTypeface);
-        mConfirmView.setTypeface(mTypeface);
-        mCancelView.setTypeface(mTypeface);
 
         setListeners();
 
@@ -69,7 +73,7 @@ public class CustomDialog extends AlertDialog {
     }
 
     private void setListeners(){
-        mConfirmView.setOnClickListener(new View.OnClickListener() {
+        mViews[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Code when positive button is clicked.
@@ -79,11 +83,11 @@ public class CustomDialog extends AlertDialog {
             }
         });
 
-        mCancelView.setOnClickListener(new View.OnClickListener() {
+        mViews[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Code when negative button is clicked.
-                if(mCallbacks != null)
+                if (mCallbacks != null)
                     mCallbacks.onCancelClick();
                 dismiss();
             }
@@ -91,43 +95,69 @@ public class CustomDialog extends AlertDialog {
     }
 
     public void setConfirmColour(String _hex){
-        mConfirmView.setTextColor(Color.parseColor(_hex));
+        ((Button)mViews[2]).setTextColor(Color.parseColor(_hex));
+    }
+
+    public void setViewProperties(View[] _view, String[] _text){
+        for(int i = 0; i < _view.length; i++) {
+
+            int index = getIndexFromView(_view[i]);
+            mViews[index].setVisibility(View.GONE);
+            mStrings[index] = _text[i];
+
+            if (!(_text[i].equals("") || _text[i] == null))
+                mViews[index].setVisibility(View.VISIBLE);
+
+            if(index/2 > 0){
+                Button button = (Button)mViews[index];
+                button.setText(mStrings[index].toUpperCase());
+                button.setTypeface(mTypeface);
+            } else{
+                TextView textView = (TextView) mViews[index];
+                textView.setText(mStrings[index]);
+                textView.setTypeface(mTypeface);
+            }
+        }
+    }
+
+    private int getIndexFromView(View _view){
+        for(int i = 0; i < mViews.length; i++){
+            if(mViews[i] == _view)
+                return i;
+        }
+        return 0;
     }
 
     public void setTitle(String _title){
-        mTitle = _title;
-        mTitleView.setText(mTitle);
+        setViewProperties(new View[]{ mViews[0] } , new String[]{ _title });
     }
 
     public void setContent(String _content){
-        mContent = _content;
-        mContentView.setText(mContent);
+        setViewProperties(new View[]{ mViews[1] } , new String[]{ _content });
     }
 
     public void setConfirm(String _confirm){
-        mConfirm = _confirm;
-        mConfirmView.setText(mConfirm);
+        setViewProperties(new View[]{mViews[2]}, new String[]{_confirm});
     }
 
     public void setCancel(String _cancel){
-        mCancel = _cancel;
-        mCancelView.setText(mCancel);
+        setViewProperties(new View[]{ mViews[3] } , new String[]{ _cancel });
     }
 
     public String getTitle(){
-        return mTitle;
+        return mStrings[0];
     }
 
     public String getContent(){
-        return mContent;
+        return mStrings[1];
     }
 
     public String getConfirm(){
-        return mConfirm;
+        return mStrings[2];
     }
 
     public String getCancel(){
-        return mCancel;
+        return mStrings[3];
     }
 
     public interface ClickListener{
