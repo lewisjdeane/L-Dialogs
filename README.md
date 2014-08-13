@@ -38,6 +38,8 @@ To create a new CustomDialog simply call
 CustomDialog customDialog = new CustomDialog(Context, Title, Content, PositiveText, NegativeText);
 or
 CustomDialog customDialog = new CustomDialog(Context);
+or
+CustomDialog customDialog = new CustomDialog(Context, Title, Content, PositiveText);
 
 and then 
 
