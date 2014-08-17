@@ -32,10 +32,7 @@ repositories{
 
 # Usage
 
-
-
-
-Normal Dialogs
+##Normal Dialogs
 
 You should now be able to access the class CustomDialog from one of your java files.
 
@@ -77,11 +74,7 @@ public void onCancelClick(){
 
 ```
 
-
-
-
-
-List Dialogs
+##List Dialogs
 
 You can access the class CustomListDialog in a similar fashion to previously.
 
