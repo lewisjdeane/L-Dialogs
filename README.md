@@ -82,7 +82,9 @@ To create a new list dialog simply call
 ```java
 CustomListDialog customListDialog = new CustomListDialog(Context context);
 or
-CustomListDialog customListDialog = new CustomListDialog(Context context,String title, ArrayList<String> items);
+CustomListDialog customListDialog = new CustomListDialog(Context context, String title, ArrayList<String> items);
+or
+CustomListDialog customListDialog = new CustomListDialog(Context context, String title, String[] items);
 
 and then
 
