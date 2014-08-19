@@ -144,6 +144,10 @@ public class CustomDialog extends AlertDialog {
         setViewProperties(new View[]{ mViews[3] } , new String[]{ _cancel });
     }
 
+    public void setClickListener(ClickListener mCallbacks) {
+        this.mCallbacks = mCallbacks;
+    }
+
     public String getTitle(){
         return mStrings[0];
     }
