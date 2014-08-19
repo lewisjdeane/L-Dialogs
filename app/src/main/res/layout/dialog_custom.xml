@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#FFF"
-    android:padding="16dp">
+    android:background="@android:color/white"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/dialog_custom_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp"
+        android:text="Title"
         android:textColor="#474747"
         android:textSize="22sp"
-        android:padding="8dp"
         android:visibility="gone"/>
 
     <TextView
         android:id="@+id/dialog_custom_content"
+        fontPath="fonts/Roboto-Medium.ttf"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp"
+        android:paddingTop="24dp"
+        android:text="Content"
         android:textColor="#999999"
-        android:textSize="18sp"
-        android:padding="8dp"
+        android:textSize="14sp"
         android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:paddingTop="8dp"
-        android:orientation="horizontal">
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:paddingBottom="16dp"
+        android:paddingTop="24dp">
 
         <Button
             android:id="@+id/dialog_custom_cancel"
             android:layout_width="88dp"
             android:layout_height="36dp"
-            android:background="#FFF"
+            android:background="@android:color/white"
+            android:textAllCaps="true"
             android:textSize="14sp"
             android:textColor="#212121"
             android:visibility="gone"/>
@@ -45,9 +54,10 @@
             android:id="@+id/dialog_custom_confirm"
             android:layout_width="88dp"
             android:layout_height="36dp"
-            android:background="#FFF"
-            android:textColor="@color/aqua"
+            android:background="@android:color/white"
+            android:textAllCaps="true"
             android:textSize="14sp"
+            android:textColor="@color/aqua"
             android:visibility="gone"/>
     </LinearLayout>
 
