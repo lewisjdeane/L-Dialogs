@@ -32,7 +32,9 @@ public class CustomListDialog extends AlertDialog {
     private ListClickListener mCallbacks;
     public static Typeface mTypeface;
 
-    public static boolean mIsCenterAligned = false;
+    public static boolean mIsTitleCenterAligned = false;
+    public static boolean mIsItemsCenterAligned = false;
+
     public static String mTitleColour = "#474747", mItemColour =  "#999999";
 
     public CustomListDialog(Context _context){
@@ -40,7 +42,8 @@ public class CustomListDialog extends AlertDialog {
         mContext = _context;
         mTitleColour = "#474747";
         mItemColour =  "#999999";
-        mIsCenterAligned = false;
+        mIsTitleCenterAligned = false;
+        mIsItemsCenterAligned = false;
         init();
     }
 
@@ -51,7 +54,20 @@ public class CustomListDialog extends AlertDialog {
         setItems(_items);
         mTitleColour = "#474747";
         mItemColour =  "#999999";
-        mIsCenterAligned = false;
+        mIsTitleCenterAligned = false;
+        mIsItemsCenterAligned = false;
+        init();
+    }
+
+    public CustomListDialog(Context _context, String _title, ArrayList<String> _items){
+        super(_context);
+        mContext = _context;
+        setTitle(_title);
+        setItems(_items);
+        mTitleColour = "#474747";
+        mItemColour =  "#999999";
+        mIsTitleCenterAligned = false;
+        mIsItemsCenterAligned = false;
         init();
     }
 
@@ -79,17 +95,19 @@ public class CustomListDialog extends AlertDialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 try{
-                    mCallbacks = (ListClickListener) mContext;
+                    if(mCallbacks == null) {
+                        mCallbacks = (ListClickListener) mContext;
+                    }
                     mCallbacks.onListItemSelected(i, mItems, mItems.get(i));
-                    dismiss();
                 } catch(ClassCastException e){
-                    Log.e("L Dialogs", mContext.getClass() + " must implement ListClickListener");
+                    Log.w("L Dialogs", mContext.getClass() + " should implement ListClickListener or use CustomListDialog.setListClickListener(...)");
                 }
+                dismiss();
             }
         });
     }
 
-    private void setTitleProperties(){
+    private CustomListDialog setTitleProperties(){
         if(mTitleView != null) {
             mTitleView.setVisibility(View.VISIBLE);
 
@@ -100,44 +118,57 @@ public class CustomListDialog extends AlertDialog {
                 mTitleView.setTypeface(mTypeface);
             }
         }
+        return this;
     }
 
-    public void setTitle(String _title){
+    public CustomListDialog setTitle(String _title){
         mTitle = _title;
-        setTitleProperties();
+        return setTitleProperties();
     }
 
-    public void setItems(String[] _items){
+    public CustomListDialog setItems(String[] _items){
         mItems.clear();
         mItems.addAll(Arrays.asList(_items));
         if(mCustomListAdapter != null)
             mCustomListAdapter.notifyDataSetChanged();
+        return this;
     }
 
-    public void setItems(ArrayList<String> _items){
+    public CustomListDialog setItems(ArrayList<String> _items){
         mItems.clear();
         mItems.addAll(_items);
         if(mCustomListAdapter != null)
             mCustomListAdapter.notifyDataSetChanged();
+        return this;
     }
 
-    public void setCenterAligned(boolean _centerAligned){
-        mIsCenterAligned = _centerAligned;
+    public CustomListDialog setTitleCenterAligned(boolean _centerAligned){
+        mIsTitleCenterAligned = _centerAligned;
         mTitleView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         if(_centerAligned)
             mTitleView.setGravity(Gravity.CENTER);
-        mCustomListAdapter.notifyDataSetChanged();
+        return this;
     }
 
-    public void setTitleColour(String _hex){
+    public CustomListDialog setItemsCenterAligned(boolean _centerAligned){
+        mIsItemsCenterAligned = _centerAligned;
+        mCustomListAdapter.notifyDataSetChanged();
+        return this;
+    }
+
+    public CustomListDialog setTitleColour(String _hex){
         mTitleColour = _hex;
-        setTitleProperties();
+        return setTitleProperties();
     }
 
-    public void setListItemColour(String _hex){
+    public CustomListDialog setListItemColour(String _hex){
         mItemColour = _hex;
-        setTitleProperties();
-        mCustomListAdapter.notifyDataSetChanged();
+        return setTitleProperties();
+    }
+
+    public CustomListDialog setListClickListener(ListClickListener mCallbacks){
+        this.mCallbacks = mCallbacks;
+        return this;
     }
 
     public interface ListClickListener{

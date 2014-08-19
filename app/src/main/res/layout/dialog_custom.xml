@@ -27,7 +27,7 @@
         android:paddingTop="24dp"
         android:text="Content"
         android:textColor="#999999"
-        android:textSize="14sp"
+        android:textSize="18sp"
         android:visibility="gone"/>
 
     <LinearLayout

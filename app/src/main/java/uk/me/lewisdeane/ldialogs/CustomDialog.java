@@ -55,9 +55,11 @@ public class CustomDialog extends AlertDialog {
                 null);
 
         try {
-            mCallbacks = (ClickListener) mContext;
+            if(mCallbacks == null) {
+                mCallbacks = (ClickListener) mContext;
+            }
         } catch (ClassCastException e) {
-            Log.e("L DIALOGS", mContext.toString() + " must implement ClickListener");
+            Log.w("L Dialogs", mContext.toString() + " should implement ClickListener or use CustomDialog.setClickListener(...)");
         }
 
         mViews[0] = mRootView.findViewById(R.id.dialog_custom_title);
@@ -77,7 +79,7 @@ public class CustomDialog extends AlertDialog {
             @Override
             public void onClick(View view) {
                 // Code when positive button is clicked.
-                if(mCallbacks != null)
+                if (mCallbacks != null)
                     mCallbacks.onConfirmClick();
                 dismiss();
             }
@@ -94,11 +96,12 @@ public class CustomDialog extends AlertDialog {
         });
     }
 
-    public void setConfirmColour(String _hex){
+    public CustomDialog setConfirmColour(String _hex){
         ((Button)mViews[2]).setTextColor(Color.parseColor(_hex));
+        return this;
     }
 
-    public void setViewProperties(View[] _view, String[] _text){
+    private CustomDialog setViewProperties(View[] _view, String[] _text){
         for(int i = 0; i < _view.length; i++) {
 
             int index = getIndexFromView(_view[i]);
@@ -118,6 +121,7 @@ public class CustomDialog extends AlertDialog {
                 textView.setTypeface(mTypeface);
             }
         }
+        return this;
     }
 
     private int getIndexFromView(View _view){
@@ -128,24 +132,25 @@ public class CustomDialog extends AlertDialog {
         return 0;
     }
 
-    public void setTitle(String _title){
-        setViewProperties(new View[]{ mViews[0] } , new String[]{ _title });
+    public CustomDialog setTitle(String _title){
+        return setViewProperties(new View[]{ mViews[0] } , new String[]{ _title });
     }
 
-    public void setContent(String _content){
-        setViewProperties(new View[]{ mViews[1] } , new String[]{ _content });
+    public CustomDialog setContent(String _content){
+        return setViewProperties(new View[]{ mViews[1] } , new String[]{ _content });
     }
 
-    public void setConfirm(String _confirm){
-        setViewProperties(new View[]{mViews[2]}, new String[]{_confirm});
+    public CustomDialog setConfirm(String _confirm){
+        return setViewProperties(new View[]{mViews[2]}, new String[]{_confirm});
     }
 
-    public void setCancel(String _cancel){
-        setViewProperties(new View[]{ mViews[3] } , new String[]{ _cancel });
+    public CustomDialog setCancel(String _cancel){
+        return setViewProperties(new View[]{ mViews[3] } , new String[]{ _cancel });
     }
 
-    public void setClickListener(ClickListener mCallbacks) {
+    public CustomDialog setClickListener(ClickListener mCallbacks) {
         this.mCallbacks = mCallbacks;
+        return this;
     }
 
     public String getTitle(){
