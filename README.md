@@ -53,15 +53,19 @@ customDialog.show();
 Method calls are also available
 
 ```java
-customDialog.setConfirmColour(String hex);
-customDialog.setTitle(String title);
-customDialog.setContent(String content);
-customDialog.setConfirm(String confirm);
-customDialog.setCancel(String cancel);
-
+.setConfirmColour(String hex);
+.setTitle(String title);
+.setContent(String content);
+.setConfirm(String confirm);
+.setCancel(String cancel);
 ```
 
-In order to set the click listeners for the two buttons the activity that created the CustomDialog must implement CustomDialog.ClickListener, and then use the methods
+In order to set the click listeners for the two buttons either implement CustomDialog.ClickListener in the activity that created the dialog or simply use the method:
+```java
+.setClickListener(new CustomDialog.ClickListener(){...}
+```
+and then use the methods below to control behaviour on each button click.
+
 
 ```java
 public void onConfirmClick(){
@@ -93,16 +97,21 @@ customListDialog.show();
 
 Method calls are just as easy:
 ```java
-customListDialog.setTitle(String title);
-customListDialog.setItems(ArrayList<String> items);
-customListDialog.setItems(String[] items);
-customListDialog.setCenterAligned(boolean isCentered);
-customListDialog.setTitleColour(String hexColour);
-customListDialog.setListItemColour(String hexColour);
+.setTitle(String title);
+.setItems(ArrayList<String> items);
+.setItems(String[] items);
+.setTitleCenterAligned(boolean isCentered);
+.setItemsCenterAligned(boolean isCentered);
+.setTitleColour(String hexColour);
+.setListItemColour(String hexColour);
 ```
 
 
-In order to recieve the click events from the dialog, the activity that created the dialog must implement CustomListDialog.ListClickListener and then use the method:
+In order to recieve the click events from the dialog, either implement CustomListDialog.ListClickListener in the activity that created the dialog or just use the method:
+```java
+.setListClickListener(new CustomListDialog.ListClickListener{...})
+``` 
+and then use the method below to control behaviour on item click:
 
 ```java
 public void onListItemSelected(int position, ArrayList<String> items, String item){
