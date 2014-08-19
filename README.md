@@ -60,7 +60,7 @@ Method calls are also available
 .setCancel(String cancel);
 ```
 
-In order to set the click listeners for the two buttons either implement CustomDialog.ClickListener in the activity that created the dialog or simply use the method ```java.setClickListener(new CustomDialog.ClickListener(){...} ```
+In order to set the click listeners for the two buttons either implement CustomDialog.ClickListener in the activity that created the dialog or simply use the method ```java .setClickListener(new CustomDialog.ClickListener(){...} ```
 and then use the methods below to control behaviour on each button click.
 
 
@@ -104,7 +104,7 @@ Method calls are just as easy:
 ```
 
 
-In order to recieve the click events from the dialog, either implement CustomListDialog.ListClickListener in the activity that created the dialog or just use the method ```java.setListClickListener(new CustomListDialog.ListClickListener{...})``` 
+In order to recieve the click events from the dialog, either implement CustomListDialog.ListClickListener in the activity that created the dialog or just use the method ```java .setListClickListener(new CustomListDialog.ListClickListener{...})``` 
 and then use the method below to control behaviour on item click:
 
 ```java
