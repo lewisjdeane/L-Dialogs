@@ -109,7 +109,7 @@ Method calls are just as easy:
 
 In order to recieve the click events from the dialog, either implement CustomListDialog.ListClickListener in the activity that created the dialog or just use the method:
 ```java
-.setListClickListener(new CustomListDialog.ListClickListener{...})
+.setListClickListener(new CustomListDialog.ListClickListener(){...})
 ``` 
 and then use the method below to control behaviour on item click:
 
