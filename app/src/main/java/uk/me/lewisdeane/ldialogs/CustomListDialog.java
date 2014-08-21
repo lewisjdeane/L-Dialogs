@@ -163,6 +163,7 @@ public class CustomListDialog extends AlertDialog {
 
     public CustomListDialog setListItemColour(String _hex){
         mItemColour = _hex;
+        mCustomListAdapter.notifyDataSetChanged();
         return setTitleProperties();
     }
 
