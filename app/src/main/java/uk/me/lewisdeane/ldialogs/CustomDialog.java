@@ -155,6 +155,11 @@ public class CustomDialog extends AlertDialog {
     }
 
     public CustomDialog setCustomView(View view) {
+        if (customView != null) {
+            // Remove the current custom View
+            ((ViewGroup) mViews[0].getParent()).removeView(customView);
+        }
+
         customView = view;
         ((ViewGroup) mViews[0].getParent()).addView(customView, 2);
         return this;
