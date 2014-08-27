@@ -14,6 +14,7 @@ public class CustomDialog extends AlertDialog {
 
     private Context mContext;
     private View mRootView;
+    private View customView;
     private View[] mViews = new View[4];
     private String[] mStrings = new String[]{"", "", "", ""};
     private Typeface mTypeface;
@@ -153,6 +154,17 @@ public class CustomDialog extends AlertDialog {
         return this;
     }
 
+    public CustomDialog setCustomView(View view) {
+        if (customView != null) {
+            // Remove the current custom View
+            ((ViewGroup) mViews[0].getParent()).removeView(customView);
+        }
+
+        customView = view;
+        ((ViewGroup) mViews[0].getParent()).addView(customView, 2);
+        return this;
+    }
+
     public String getTitle(){
         return mStrings[0];
     }
@@ -167,6 +179,10 @@ public class CustomDialog extends AlertDialog {
 
     public String getCancel(){
         return mStrings[3];
+    }
+
+    public View getCustomView(){
+        return customView;
     }
 
     public interface ClickListener{
