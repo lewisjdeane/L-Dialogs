@@ -10,10 +10,9 @@
         android:id="@+id/dialog_list_custom_title"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:textColor="#474747"
         android:textSize="22sp"
         android:padding="8dp"
-        android:visibility="gone"/>
+        android:visibility="visible"/>
 
     <ListView
         android:padding="8dp"

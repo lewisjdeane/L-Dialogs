@@ -54,13 +54,6 @@ public class CustomDialog extends AlertDialog {
     This class will be written shortly to be more efficient with regard to the new features implemented.
      */
 
-    /* Basic constructor */
-    public CustomDialog(Context _context) {
-        super(_context);
-        mContext = _context;
-        init();
-    }
-
     public CustomDialog(Builder _builder) {
         super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? android.R.style.Theme_Holo : android.R.style.Theme_Holo_Light));
         mContext = _builder.mContext;
