@@ -13,7 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Created by Lewis on 17/08/2014.
+ * Created by Lewis on 17/08/2014
  */
 public class CustomListDialog extends AlertDialog {
 
@@ -125,7 +125,7 @@ public class CustomListDialog extends AlertDialog {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // If there is a listener available call onListItemSelected.
-                if (mCallbacks == null)
+                if (mCallbacks != null)
                     mCallbacks.onListItemSelected(i, mItems, mItems[i]);
 
                 dismiss();
