@@ -4,13 +4,15 @@
 
 A small library replicating the new dialogs in android L.
 
-!["Screenshot 1"](https://github.com/lewisjdeane/L-Dialogs/raw/master/app/src/main/res/screenshots/screen3.png)
+!["Screenshot 1"](https://github.com/lewisjdeane/L-Dialogs/raw/master/app/src/main/res/screenshots/banner.jpg)
 
 * * *
 
 # Set Up (Android Studio):
 
-Download the aar here: https://www.dropbox.com/s/uqey0k7m3g45ky4/app.aar
+Download the aar here: https://www.dropbox.com/s/uqey0k7m3g45ky4/ldialogs.aar
+
+Maven central support will be coming soon.
 
 You can rename the aar and then place it in the libs directory of your project.
 
@@ -36,93 +38,87 @@ repositories{
 
 You should now be able to access the class CustomDialog from one of your java files.
 
-To create a new CustomDialog simply call
+To create a new CustomDialog we need to use a builder as so:
 
 ```java
-CustomDialog customDialog = new CustomDialog(Context, Title, Content, PositiveText, NegativeText);
-or
-CustomDialog customDialog = new CustomDialog(Context);
-or
-CustomDialog customDialog = new CustomDialog(Context, Title, Content, PositiveText);
+// Create the builder with required paramaters - Context, Title, Positive Text
+CustomDialog.Builder builder = new CustomDialog.Builder(Context context, String title, String positiveText);
 
-and then 
+// Now we can any of the following methods.
+builder.content(String content);
+builder.negativeText(String negativeText);
+builder.darkTheme(boolean isDark);
+builder.titleColor(String hex);
+builder.contentColor(String hex);
+builder.positiveColor(String hex);
+builder.negativeColor(String hex);
+builder.titleAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
 
+// Now we can build the dialog.
+CustomDialog customDialog = builder.build();
+
+// Show the dialog.
 customDialog.show();
 ```
 
-Method calls are also available
+To handle the button clicks you can use the following code:
 
 ```java
-.setConfirmColour(String hex);
-.setTitle(String title);
-.setContent(String content);
-.setConfirm(String confirm);
-.setCancel(String cancel);
+customDialog.setClickListener(new CustomDialog.ClickListener() {
+            @Override
+            public void onConfirmClick() {
+                
+            }
+
+            @Override
+            public void onCancelClick() {
+
+            }
+        });
 ```
 
-In order to set the click listeners for the two buttons either implement CustomDialog.ClickListener in the activity that created the dialog or simply use the method:
+If you want to set a custom view in the dialog you can use the following method.
+
 ```java
-.setClickListener(new CustomDialog.ClickListener(){...}
+customDialog.setCustomView(View customView);
 ```
-and then use the methods below to control behaviour on each button click.
 
+Then do what you need to do with the custom views content in onConfirmClick or onCancelClick.
 
-```java
-public void onConfirmClick(){
-...
-}
-
-public void onCancelClick(){
-...
-}
-
-```
 
 ##List Dialogs
 
-You can access the class CustomListDialog in a similar fashion to previously.
+To use the CustomListDialog we need to use a builder again, this is done as follows:
 
-To create a new list dialog simply call
 ```java
-CustomListDialog customListDialog = new CustomListDialog(Context context);
-or
-CustomListDialog customListDialog = new CustomListDialog(Context context, String title, ArrayList<String> items);
-or
-CustomListDialog customListDialog = new CustomListDialog(Context context, String title, String[] items);
+// Create list dialog with required parameters - context, title, and our array of items to fill the list.
+CustomListDialog.Builder builder = new CustomListDialog.Builder(Context context, String title, String[] items);
 
-and then
+// Now again we can use some extra methods on the builder to customise it more.
+builder.titleColor(String hex);
+builder.itemColor(String hex);
+builder.darkTheme(boolean isDark);
+builder.titleAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
+builder.itemAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
 
+// Now we can build our dialog.
+CustomListDialog customListDialog = builder.build();
+
+// Finally we can show it.
 customListDialog.show();
 ```
 
-Method calls are just as easy:
+In order to recieve the click events from the dialog, simply use the following method on your customListDialog:
 ```java
-.setTitle(String title);
-.setItems(ArrayList<String> items);
-.setItems(String[] items);
-.setTitleCenterAligned(boolean isCentered);
-.setItemsCenterAligned(boolean isCentered);
-.setTitleColour(String hexColour);
-.setListItemColour(String hexColour);
-```
-
-
-In order to recieve the click events from the dialog, either implement CustomListDialog.ListClickListener in the activity that created the dialog or just use the method:
-```java
-.setListClickListener(new CustomListDialog.ListClickListener(){...})
+customListDialog.setListClickListener(new CustomListDialog.ListClickListener() {
+            @Override
+            public void onListItemSelected(int i, String[] strings, String s) {
+                // i is the position clicked.
+                // strings is the array of items in the list.
+                // s is the item selected.
+            }
+        });
 ``` 
-and then use the method below to control behaviour on item click:
-
-```java
-public void onListItemSelected(int position, ArrayList<String> items, String item){
-    // position is the position in list of selected item.
-    // items is the list that is filling the dialog.
-    // item is the selected item therefore item = items.get(position);
-    
-    // Do stuff here based on item click.
-}
-
-```
 
 * * *
 
