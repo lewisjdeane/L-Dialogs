@@ -10,7 +10,7 @@ A small library replicating the new dialogs in android L.
 
 # Set Up (Android Studio):
 
-Download the aar here: https://www.dropbox.com/s/uqey0k7m3g45ky4/ldialogs.aar
+Download the aar here: https://www.dropbox.com/s/276bhapr2g50cak/ldialogs.aar?dl=0
 
 Maven central support will be coming soon.
 
