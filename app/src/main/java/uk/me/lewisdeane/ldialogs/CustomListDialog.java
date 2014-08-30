@@ -15,7 +15,7 @@ import android.widget.TextView;
 /**
  * Created by Lewis on 17/08/2014
  */
-public class CustomListDialog extends AlertDialog {
+public class CustomListDialog extends BaseDialog {
 
     // Context used to create the dialog.
     private Context mContext;
@@ -56,45 +56,32 @@ public class CustomListDialog extends AlertDialog {
     // Typeface containing the font to use in dialog.
     public static Typeface mTypeface;
 
-    // Boolean containing whether or not dark dialog should be shown.
-    public static boolean mIsDark = false;
+    // Theme containing the chosen theme.
+    public static Theme mTheme = Theme.LIGHT;
 
-    public static enum Alignment {
-        LEFT, CENTER, RIGHT;
-    }
+    // Make this class private so it can only be built through the builder.
+    private CustomListDialog(Builder _builder) {
 
-    public static enum LightColours {
-        TITLE("#474747"), ITEM("#999999");
-
-        public final String mColour;
-
-        private LightColours(String _colour) {
-            this.mColour = _colour;
-        }
-    }
-
-    public static enum DarkColours {
-        TITLE("CCCCCC"), ITEM("#808080");
-
-        public final String mColour;
-
-        private DarkColours(String _colour) {
-            this.mColour = _colour;
-        }
-    }
-
-    public CustomListDialog(Builder _builder) {
+        // Call super class constructor to create our dialog.
         super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? android.R.style.Theme_Holo : android.R.style.Theme_Holo_Light));
+
+        // Set correct properties.
         this.mContext = _builder.mContext;
-        this.mIsDark = _builder.mIsDark;
+        this.mTheme = _builder.mIsDark ? Theme.DARK : Theme.LIGHT;
         this.mTitle = _builder.mTitle;
         this.mItems = _builder.mItems;
-        this.mTitleColour = _builder.mTitleColour.length() > 0 ? _builder.mTitleColour : (this.mIsDark ? DarkColours.TITLE.mColour : LightColours.TITLE.mColour);
-        this.mItemColour = _builder.mItemColour;
+        this.mTitleColour = _builder.mTitleColour.length() > 0 ? _builder.mTitleColour : (this.mTheme == Theme.DARK ? DarkColours.TITLE.mColour : LightColours.TITLE.mColour);
+        this.mItemColour = _builder.mItemColour.length() > 0 ? _builder.mItemColour : (this.mTheme == Theme.DARK ? DarkColours.ITEM.mColour : LightColours.ITEM.mColour);
         this.mTitleAlignment = _builder.mTitleAlignment;
         this.mItemAlignment = _builder.mItemAlignment;
+
+        // Reference everything needed and set the dialog view.
         init();
+
+        // Sets the listener for the list.
         setListeners();
+
+        // Set the properties of the title only since items in handled in the adapter.
         setTitleProperties();
     }
 
@@ -139,25 +126,13 @@ public class CustomListDialog extends AlertDialog {
             mTitleView.setText(this.mTitle);
             mTitleView.setTextColor(Color.parseColor(this.mTitleColour));
             mTitleView.setTypeface(this.mTypeface);
-            mTitleView.setGravity(getGravityFromAlignment(this.mTitleAlignment));
+            mTitleView.setGravity(getGravityFromAlignment(this.mTitleAlignment) | Gravity.CENTER_VERTICAL);
         }
         return this;
     }
 
-    public static int getGravityFromAlignment(Alignment _alignment) {
-        switch (_alignment) {
-            case LEFT:
-                return Gravity.LEFT;
-            case CENTER:
-                return Gravity.CENTER;
-            case RIGHT:
-                return Gravity.RIGHT;
-            default:
-                return Gravity.LEFT;
-        }
-    }
-
     public CustomListDialog setListClickListener(ListClickListener mCallbacks) {
+        // Set the list click listener.
         this.mCallbacks = mCallbacks;
         return this;
     }
@@ -168,16 +143,19 @@ public class CustomListDialog extends AlertDialog {
 
     public static class Builder {
 
+        // Required fields in constructor.
         private final Context mContext;
         private final String mTitle;
         private final String[] mItems;
 
+        // Our builder constructor used to generate each dialog.
         public Builder(Context _context, String _title, String[] _items) {
             this.mContext = _context;
             this.mTitle = _title;
             this.mItems = _items;
         }
 
+        // Optional parameters initialised with default values.
         private Alignment mTitleAlignment = Alignment.LEFT, mItemAlignment = Alignment.LEFT;
         private String mTitleColour = "", mItemColour = "";
         private boolean mIsDark = false;

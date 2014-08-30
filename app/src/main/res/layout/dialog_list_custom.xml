@@ -11,14 +11,13 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:textSize="22sp"
-        android:padding="8dp"
-        android:visibility="visible"/>
+        android:padding="8dp"/>
 
     <ListView
         android:padding="8dp"
         android:id="@+id/dialog_list_custom_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:divider="#0000"/>
+        android:divider="@color/transparent"/>
 
 </LinearLayout>
