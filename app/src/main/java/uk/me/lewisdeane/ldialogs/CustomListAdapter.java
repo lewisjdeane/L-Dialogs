@@ -43,7 +43,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
         mItemView.setTypeface(CustomListDialog.mTypeface);
 
         try {
-            mItemView.setTextColor(Color.parseColor(CustomListDialog.mItemColour));
+            mItemView.setTextColor(CustomListDialog.mItemColour);
         } catch(Exception e){}
 
         return v;
