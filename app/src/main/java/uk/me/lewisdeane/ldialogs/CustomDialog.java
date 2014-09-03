@@ -1,8 +1,10 @@
 package uk.me.lewisdeane.ldialogs;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -261,6 +263,11 @@ public class CustomDialog extends BaseDialog {
 
         public Builder negativeText(String _negativeText) {
             this.mNegativeText = _negativeText;
+            return this;
+        }
+
+        public Builder negativeText(int _negativeTextResId) {
+            this.mNegativeText = mContext.getString(_negativeTextResId);
             return this;
         }
 

@@ -1,4 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="uk.me.lewisdeane.ldialogs">
-
-</manifest>
+<manifest package="uk.me.lewisdeane.ldialogs"/>
