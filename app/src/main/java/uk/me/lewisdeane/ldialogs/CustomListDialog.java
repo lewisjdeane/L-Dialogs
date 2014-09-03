@@ -1,6 +1,5 @@
 package uk.me.lewisdeane.ldialogs;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -153,6 +152,12 @@ public class CustomListDialog extends BaseDialog {
             this.mContext = _context;
             this.mTitle = _title;
             this.mItems = _items;
+        }
+
+        public Builder(Context _context, int _titleResId, int _itemsResId) {
+            this.mContext = _context;
+            this.mTitle = mContext.getString(_titleResId);
+            this.mItems = mContext.getResources().getStringArray(_itemsResId);
         }
 
         // Optional parameters initialised with default values.

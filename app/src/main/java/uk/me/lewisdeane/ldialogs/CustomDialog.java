@@ -101,7 +101,7 @@ public class CustomDialog extends BaseDialog {
         mButtonContainers[1] = (LinearLayout) mRootView.findViewById(R.id.dialog_custom_stacked_buttons);
 
         // Set alignment for title view.
-        ((TextView)mViews[0]).setGravity(getGravityFromAlignment(mTitleAlignment) | Gravity.CENTER_VERTICAL);
+        ((TextView) mViews[0]).setGravity(getGravityFromAlignment(mTitleAlignment) | Gravity.CENTER_VERTICAL);
 
         // Load typeface from assets to be used.
         mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
@@ -199,10 +199,10 @@ public class CustomDialog extends BaseDialog {
 
     private void applyTheme() {
         // Apply the correct colours based on theme and user preference.
-        ((TextView)mViews[0]).setTextColor(Color.parseColor(this.mTitleColour.length() > 0 ? mTitleColour : (mTheme == Theme.LIGHT ? LightColours.TITLE.mColour : DarkColours.TITLE.mColour)));
-        ((TextView)mViews[1]).setTextColor(Color.parseColor(this.mContentColour.length() > 0 ? mContentColour : (mTheme == Theme.LIGHT ? LightColours.CONTENT.mColour : DarkColours.CONTENT.mColour)));
-        ((Button)mViews[2]).setTextColor(Color.parseColor(this.mPositiveColour.length() > 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? LightColours.BUTTON.mColour : DarkColours.BUTTON.mColour)));
-        ((Button)mViews[3]).setTextColor(Color.parseColor(this.mNegativeColour.length() > 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? LightColours.BUTTON.mColour : DarkColours.BUTTON.mColour)));
+        ((TextView) mViews[0]).setTextColor(Color.parseColor(this.mTitleColour.length() > 0 ? mTitleColour : (mTheme == Theme.LIGHT ? LightColours.TITLE.mColour : DarkColours.TITLE.mColour)));
+        ((TextView) mViews[1]).setTextColor(Color.parseColor(this.mContentColour.length() > 0 ? mContentColour : (mTheme == Theme.LIGHT ? LightColours.CONTENT.mColour : DarkColours.CONTENT.mColour)));
+        ((Button) mViews[2]).setTextColor(Color.parseColor(this.mPositiveColour.length() > 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? LightColours.BUTTON.mColour : DarkColours.BUTTON.mColour)));
+        ((Button) mViews[3]).setTextColor(Color.parseColor(this.mNegativeColour.length() > 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? LightColours.BUTTON.mColour : DarkColours.BUTTON.mColour)));
     }
 
     public CustomDialog setClickListener(ClickListener mCallbacks) {
@@ -243,12 +243,18 @@ public class CustomDialog extends BaseDialog {
             this.mPositiveText = _positiveText;
         }
 
+        public Builder(Context _context, int _titleResId, int _positiveTextResId) {
+            this.mContext = _context;
+            this.mTitle = mContext.getString(_titleResId);
+            this.mPositiveText = mContext.getString(_positiveTextResId);
+        }
+
         // Optional parameters initialised by default.
         private String mNegativeText = "", mPositiveColour = "", mNegativeColour = "", mTitleColour = "", mContentColour = "", mContent = "";
         private boolean mDarkTheme = false;
         private Alignment mTitleAlignment = Alignment.LEFT;
 
-        public Builder content(String _content){
+        public Builder content(String _content) {
             this.mContent = _content;
             return this;
         }
@@ -263,17 +269,17 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColor(String _negativeColour){
+        public Builder negativeColor(String _negativeColour) {
             this.mNegativeColour = _negativeColour;
             return this;
         }
 
-        public Builder titleColor(String _colour){
+        public Builder titleColor(String _colour) {
             this.mTitleColour = _colour;
             return this;
         }
 
-        public Builder contentColor(String _colour){
+        public Builder contentColor(String _colour) {
             this.mContentColour = _colour;
             return this;
         }
@@ -283,7 +289,7 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder titleAlignment(Alignment _alignment){
+        public Builder titleAlignment(Alignment _alignment) {
             this.mTitleAlignment = _alignment;
             return this;
         }
