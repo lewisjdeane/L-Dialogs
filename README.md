@@ -4,7 +4,7 @@
 
 A small library replicating the new dialogs in android L.
 
-!["Screenshot 1"](https://github.com/lewisjdeane/L-Dialogs/raw/master/app/src/main/res/screenshots/banner.jpg)
+!["Screenshot 1"](https://github.com/lewisjdeane/L-Dialogs/raw/master/screenshots/banner.jpg)
 
 * * *
 
@@ -67,7 +67,7 @@ To handle the button clicks you can use the following code:
 customDialog.setClickListener(new CustomDialog.ClickListener() {
             @Override
             public void onConfirmClick() {
-                
+
             }
 
             @Override
