@@ -129,6 +129,10 @@ public class CustomListDialog extends BaseDialog {
         }
         return this;
     }
+    
+    public ListView getListView() {
+        return mListView;
+    }
 
     public CustomListDialog setListClickListener(ListClickListener mCallbacks) {
         // Set the list click listener.
