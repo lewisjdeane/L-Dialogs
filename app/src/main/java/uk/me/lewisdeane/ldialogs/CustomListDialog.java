@@ -3,7 +3,6 @@ package uk.me.lewisdeane.ldialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.support.annotation.ColorRes;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -196,12 +195,12 @@ public class CustomListDialog extends BaseDialog {
             return this;
         }
 
-        public Builder titleColourRes(@ColorRes int _colour) {
+        public Builder titleColourRes(int _colour) {
             this.mTitleColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder itemColourRes(@ColorRes int _colour) {
+        public Builder itemColourRes(int _colour) {
             this.mItemColour = mContext.getResources().getColor(_colour);
             return this;
         }
