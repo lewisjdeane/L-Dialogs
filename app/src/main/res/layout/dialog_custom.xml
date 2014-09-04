@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/transparent"
@@ -8,14 +10,15 @@
 
     <TextView
         android:id="@+id/dialog_custom_title"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:paddingTop="24dp"
-        android:text="Title"
+        tools:text="Title"
         android:textSize="22sp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/dialog_custom_content"
@@ -24,9 +27,10 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
         android:paddingTop="24dp"
-        android:text="Content"
+        tools:text="Content"
         android:textSize="18sp"
-        android:visibility="gone"/>
+        android:visibility="gone"
+        tools:visibility="visible"/>
 
     <LinearLayout
         android:id="@+id/dialog_custom_alongside_buttons"
@@ -44,10 +48,12 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:padding="8dp"
-            android:background="@color/transparent"
+            android:background="@drawable/button_selector"
             android:textAllCaps="true"
+            tools:text="Cancel"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <Button
             android:id="@+id/dialog_custom_confirm"
@@ -55,10 +61,12 @@
             android:layout_height="36dp"
             android:gravity="center"
             android:padding="8dp"
-            android:background="@color/transparent"
+            android:background="@drawable/button_selector"
             android:textAllCaps="true"
+            tools:text="OK"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
     </LinearLayout>
 
     <LinearLayout
@@ -70,7 +78,9 @@
         android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingTop="24dp"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
+
         <Button
             android:id="@+id/dialog_custom_confirm_stacked"
             android:layout_width="wrap_content"
@@ -78,10 +88,12 @@
             android:layout_gravity="right|center_vertical"
             android:gravity="right|center_vertical"
             android:padding="8dp"
-            android:background="@color/transparent"
+            android:background="@drawable/button_selector"
             android:textAllCaps="true"
+            tools:text="Cancel"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
         <Button
             android:id="@+id/dialog_custom_cancel_stacked"
@@ -90,11 +102,13 @@
             android:layout_gravity="right|center_vertical"
             android:gravity="right|center_vertical"
             android:padding="8dp"
-            android:background="@color/transparent"
+            android:background="@drawable/button_selector"
             android:textAllCaps="true"
+            tools:text="OK"
             android:textSize="14sp"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>

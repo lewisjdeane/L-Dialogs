@@ -1,6 +1,5 @@
 package uk.me.lewisdeane.ldialogs;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -26,11 +25,11 @@ public class CustomListDialog extends BaseDialog {
     // Array of string containing the items for the list.
     private String[] mItems;
 
-    // String containing hex colour of title.
-    private String mTitleColour = "";
+    // Colour of title.
+    private int mTitleColour = 0;
 
-    // String containing hex colour of items.
-    public static String mItemColour = "";
+    // Colour of items.
+    public static int mItemColour = 0;
 
     // Alignment containing where to align the title
     private Alignment mTitleAlignment = Alignment.LEFT;
@@ -70,8 +69,8 @@ public class CustomListDialog extends BaseDialog {
         this.mTheme = _builder.mIsDark ? Theme.DARK : Theme.LIGHT;
         this.mTitle = _builder.mTitle;
         this.mItems = _builder.mItems;
-        this.mTitleColour = _builder.mTitleColour.length() > 0 ? _builder.mTitleColour : (this.mTheme == Theme.DARK ? DarkColours.TITLE.mColour : LightColours.TITLE.mColour);
-        this.mItemColour = _builder.mItemColour.length() > 0 ? _builder.mItemColour : (this.mTheme == Theme.DARK ? DarkColours.ITEM.mColour : LightColours.ITEM.mColour);
+        this.mTitleColour = _builder.mTitleColour != 0 ? _builder.mTitleColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.TITLE.mColour) : Color.parseColor(LightColours.TITLE.mColour));
+        this.mItemColour = _builder.mItemColour != 0 ? _builder.mItemColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.ITEM.mColour) : Color.parseColor(LightColours.ITEM.mColour));
         this.mTitleAlignment = _builder.mTitleAlignment;
         this.mItemAlignment = _builder.mItemAlignment;
 
@@ -124,7 +123,7 @@ public class CustomListDialog extends BaseDialog {
         // Apply correct properties if title view is available
         if (mTitleView != null) {
             mTitleView.setText(this.mTitle);
-            mTitleView.setTextColor(Color.parseColor(this.mTitleColour));
+            mTitleView.setTextColor(this.mTitleColour);
             mTitleView.setTypeface(this.mTypeface);
             mTitleView.setGravity(getGravityFromAlignment(this.mTitleAlignment) | Gravity.CENTER_VERTICAL);
         }
@@ -155,9 +154,15 @@ public class CustomListDialog extends BaseDialog {
             this.mItems = _items;
         }
 
+        public Builder(Context _context, int _titleResId, int _itemsResId) {
+            this.mContext = _context;
+            this.mTitle = mContext.getString(_titleResId);
+            this.mItems = mContext.getResources().getStringArray(_itemsResId);
+        }
+
         // Optional parameters initialised with default values.
         private Alignment mTitleAlignment = Alignment.LEFT, mItemAlignment = Alignment.LEFT;
-        private String mTitleColour = "", mItemColour = "";
+        private int mTitleColour = 0, mItemColour = 0;
         private boolean mIsDark = false;
 
         public Builder titleAlignment(Alignment _alignment) {
@@ -171,12 +176,32 @@ public class CustomListDialog extends BaseDialog {
         }
 
         public Builder titleColour(String _colour) {
-            this.mTitleColour = _colour;
+            this.mTitleColour = Color.parseColor(_colour);
             return this;
         }
 
         public Builder itemColour(String _colour) {
+            this.mItemColour = Color.parseColor(_colour);
+            return this;
+        }
+
+        public Builder titleColour(int _colour) {
+            this.mTitleColour = _colour;
+            return this;
+        }
+
+        public Builder itemColour(int _colour) {
             this.mItemColour = _colour;
+            return this;
+        }
+
+        public Builder titleColourRes(int _colour) {
+            this.mTitleColour = mContext.getResources().getColor(_colour);
+            return this;
+        }
+
+        public Builder itemColourRes(int _colour) {
+            this.mItemColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
