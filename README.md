@@ -48,11 +48,14 @@ CustomDialog.Builder builder = new CustomDialog.Builder(Context context, String 
 builder.content(String content);
 builder.negativeText(String negativeText);
 builder.darkTheme(boolean isDark);
-builder.titleColor(String hex);
-builder.contentColor(String hex);
-builder.positiveColor(String hex);
-builder.negativeColor(String hex);
+builder.titleTextSize(int size);
+builder.contentTextSize(int size);
+builder.buttonTextSize(int size);
 builder.titleAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
+builder.titleColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.contentColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.positiveColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.negativeColor(String hex); // int res, or int colorRes parameter versions available as well.
 
 // Now we can build the dialog.
 CustomDialog customDialog = builder.build();
@@ -95,11 +98,13 @@ To use the CustomListDialog we need to use a builder again, this is done as foll
 CustomListDialog.Builder builder = new CustomListDialog.Builder(Context context, String title, String[] items);
 
 // Now again we can use some extra methods on the builder to customise it more.
-builder.titleColor(String hex);
-builder.itemColor(String hex);
 builder.darkTheme(boolean isDark);
 builder.titleAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
 builder.itemAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
+builder.titleColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.itemColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.titleTextSize(int size);
+builder.itemTextSize(int size);
 
 // Now we can build our dialog.
 CustomListDialog customListDialog = builder.build();
@@ -119,6 +124,16 @@ customListDialog.setListClickListener(new CustomListDialog.ListClickListener() {
             }
         });
 ``` 
+
+To add a listview selector use the following code:
+```java
+StateListDrawable selector = new StateListDrawable();
+selector.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(R.color.color1));
+selector.addState(new int[]{-android.R.attr.state_pressed}, new ColorDrawable(R.color.color2));
+
+// The important part:
+customListDialog.getListView().setSelector(selector);
+```
 
 * * *
 
