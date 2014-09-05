@@ -132,7 +132,7 @@ selector.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(R.c
 selector.addState(new int[]{-android.R.attr.state_pressed}, new ColorDrawable(R.color.color2));
 
 // The important part:
-dialog.getListView().setSelector(selector);
+customListDialog.getListView().setSelector(selector);
 ```
 
 * * *
