@@ -129,7 +129,7 @@ public class CustomListDialog extends BaseDialog {
         }
         return this;
     }
-    
+
     public ListView getListView() {
         return mListView;
     }
@@ -204,8 +204,13 @@ public class CustomListDialog extends BaseDialog {
             return this;
         }
 
+        @Deprecated
         public Builder itemColourRes(int _colour) {
-            this.mItemColour = mContext.getResources().getColor(_colour);
+            return itemColorRes(_colour);
+        }
+
+        public Builder itemColorRes(int _color) {
+            this.mItemColour = mContext.getResources().getColor(_color);
             return this;
         }
 
