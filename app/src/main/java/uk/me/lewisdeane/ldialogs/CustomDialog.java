@@ -3,7 +3,6 @@ package uk.me.lewisdeane.ldialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -44,8 +43,11 @@ public class CustomDialog extends BaseDialog {
     // Theme containing the theme being used.
     private Theme mTheme = Theme.LIGHT;
 
-    // String containing the hex colours to be used on the views.
-    private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0;
+    // Integers containing the hex colours to be used on the views.
+    private int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
+
+    // Integers containing the text sizes
+    private int[] mTextSizes = new int[4];
 
     // Alignment for title to use
     private Alignment mTitleAlignment = Alignment.LEFT;
@@ -68,6 +70,10 @@ public class CustomDialog extends BaseDialog {
         this.mTitleColour = _builder.mTitleColour;
         this.mContentColour = _builder.mContentColour;
         this.mTitleAlignment = _builder.mTitleAlignment;
+        this.mTextSizes[0] = _builder.mTitleTextSize;
+        this.mTextSizes[1] = _builder.mContentTextSize;
+        this.mTextSizes[2] = _builder.mButtonTextSize;
+        this.mTextSizes[3] = this.mTextSizes[2];
 
         // Set up references to views and then set the view.
         init();
@@ -179,12 +185,14 @@ public class CustomDialog extends BaseDialog {
                 Button button = (Button) mViews[index];
                 button.setText(mStrings[index].toUpperCase());
                 button.setTypeface(mTypeface);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizes[index]);
             }
             // Otherwise treat view as a text view.
             else {
                 TextView textView = (TextView) mViews[index];
                 textView.setText(mStrings[index]);
                 textView.setTypeface(mTypeface);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizes[index]);
             }
         }
     }
@@ -252,7 +260,7 @@ public class CustomDialog extends BaseDialog {
 
         // Optional parameters initialised by default.
         private String mNegativeText = "", mContent = "";
-		int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0;
+		private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18, mButtonTextSize = 14;
         private boolean mDarkTheme = false;
         private Alignment mTitleAlignment = Alignment.LEFT;
 
@@ -328,6 +336,21 @@ public class CustomDialog extends BaseDialog {
 
         public Builder contentColorRes(int _colour){
             this.mContentColour = mContext.getResources().getColor(_colour);
+            return this;
+        }
+
+        public Builder titleTextSize(int _textSize){
+            this.mTitleTextSize = _textSize;
+            return this;
+        }
+
+        public Builder contentTextSize(int _textSize){
+            this.mContentTextSize = _textSize;
+            return this;
+        }
+
+        public Builder buttonTextSize(int _textSize){
+            this.mButtonTextSize = _textSize;
             return this;
         }
 

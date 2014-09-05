@@ -125,6 +125,16 @@ customListDialog.setListClickListener(new CustomListDialog.ListClickListener() {
         });
 ``` 
 
+To add a listview selector use the following code:
+```java
+StateListDrawable selector = new StateListDrawable();
+selector.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(R.color.color1));
+selector.addState(new int[]{-android.R.attr.state_pressed}, new ColorDrawable(R.color.color2));
+
+// The important part:
+customListDialog.getListView().setSelector(selector);
+```
+
 * * *
 
 This library will be updated often, enjoy!
