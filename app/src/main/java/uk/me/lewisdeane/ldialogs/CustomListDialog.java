@@ -3,6 +3,7 @@ package uk.me.lewisdeane.ldialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -26,10 +27,16 @@ public class CustomListDialog extends BaseDialog {
     private String[] mItems;
 
     // Colour of title.
-    private int mTitleColour = 0;
+    private int mTitleColour;
 
     // Colour of items.
-    public static int mItemColour = 0;
+    public static int mItemColour;
+
+    // Text size of the title
+    private int mTitleTextSize;
+
+    // Text size of the items
+    public static int mItemTextSize;
 
     // Alignment containing where to align the title
     private Alignment mTitleAlignment = Alignment.LEFT;
@@ -73,6 +80,8 @@ public class CustomListDialog extends BaseDialog {
         this.mItemColour = _builder.mItemColour != 0 ? _builder.mItemColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.ITEM.mColour) : Color.parseColor(LightColours.ITEM.mColour));
         this.mTitleAlignment = _builder.mTitleAlignment;
         this.mItemAlignment = _builder.mItemAlignment;
+        this.mTitleTextSize = _builder.mTitleTextSize;
+        this.mItemTextSize = _builder.mItemTextSize;
 
         // Reference everything needed and set the dialog view.
         init();
@@ -124,6 +133,7 @@ public class CustomListDialog extends BaseDialog {
         if (mTitleView != null) {
             mTitleView.setText(this.mTitle);
             mTitleView.setTextColor(this.mTitleColour);
+            mTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTitleTextSize);
             mTitleView.setTypeface(this.mTypeface);
             mTitleView.setGravity(getGravityFromAlignment(this.mTitleAlignment) | Gravity.CENTER_VERTICAL);
         }
@@ -166,7 +176,7 @@ public class CustomListDialog extends BaseDialog {
 
         // Optional parameters initialised with default values.
         private Alignment mTitleAlignment = Alignment.LEFT, mItemAlignment = Alignment.LEFT;
-        private int mTitleColour = 0, mItemColour = 0;
+        private int mTitleColour = 0, mItemColour = 0, mTitleTextSize = 22, mItemTextSize = 18;
         private boolean mIsDark = false;
 
         public Builder titleAlignment(Alignment _alignment) {
@@ -179,38 +189,48 @@ public class CustomListDialog extends BaseDialog {
             return this;
         }
 
-        public Builder titleColour(String _colour) {
+        public Builder titleColor(String _colour) {
             this.mTitleColour = Color.parseColor(_colour);
             return this;
         }
 
-        public Builder itemColour(String _colour) {
+        public Builder itemColor(String _colour) {
             this.mItemColour = Color.parseColor(_colour);
             return this;
         }
 
-        public Builder titleColour(int _colour) {
+        public Builder titleColor(int _colour) {
             this.mTitleColour = _colour;
             return this;
         }
 
-        public Builder itemColour(int _colour) {
+        public Builder itemColor(int _colour) {
             this.mItemColour = _colour;
             return this;
         }
 
-        public Builder titleColourRes(int _colour) {
+        public Builder titleColorRes(int _colour) {
             this.mTitleColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder itemColourRes(int _colour) {
+        public Builder itemColorRes(int _colour) {
             this.mItemColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
         public Builder darkTheme(boolean _isDark) {
             this.mIsDark = _isDark;
+            return this;
+        }
+
+        public  Builder titleTextSize(int _textSize){
+            this.mTitleTextSize = _textSize;
+            return this;
+        }
+
+        public Builder itemTextSize(int _textSize){
+            this.mItemTextSize = _textSize;
             return this;
         }
 

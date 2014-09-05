@@ -1,7 +1,7 @@
 package uk.me.lewisdeane.ldialogs;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +39,7 @@ public class CustomListAdapter extends ArrayAdapter<String> {
 
         // Apply properties.
         mItemView.setText(mItems[position]);
+        mItemView.setTextSize(TypedValue.COMPLEX_UNIT_SP, CustomListDialog.mItemTextSize);
         mItemView.setGravity(CustomListDialog.getGravityFromAlignment(CustomListDialog.mItemAlignment) | Gravity.CENTER_VERTICAL);
         mItemView.setTypeface(CustomListDialog.mTypeface);
 
