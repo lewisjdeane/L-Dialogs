@@ -215,7 +215,8 @@ public class CustomListDialog extends BaseDialog {
         }
 
         public Builder itemColorRes(int _colour) {
-            return itemColorRes(_colour);
+            this.mItemColour = mContext.getResources().getColor(_colour);
+            return this;
         }
 
         public Builder darkTheme(boolean _isDark) {
