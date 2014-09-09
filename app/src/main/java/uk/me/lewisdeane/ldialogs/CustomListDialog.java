@@ -139,7 +139,7 @@ public class CustomListDialog extends BaseDialog {
         }
         return this;
     }
-    
+
     public ListView getListView() {
         return mListView;
     }
