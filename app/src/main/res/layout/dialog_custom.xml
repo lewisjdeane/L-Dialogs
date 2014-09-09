@@ -78,7 +78,7 @@
         android:orientation="vertical"
         android:paddingBottom="16dp"
         android:paddingTop="24dp"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible" >
 
         <Button
