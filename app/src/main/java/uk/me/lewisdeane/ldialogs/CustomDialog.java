@@ -114,7 +114,7 @@ public class CustomDialog extends BaseDialog {
         mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
 
         // Set the view of our dialog with the one we've inflated.
-        super.setView(mRootView);
+        super.setView(mRootView, 0, 0, 0, 0);
     }
 
     private void setListeners() {
@@ -212,6 +212,7 @@ public class CustomDialog extends BaseDialog {
         ((TextView)mViews[1]).setTextColor(this.mContentColour != 0 ? mContentColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.CONTENT.mColour) : Color.parseColor(DarkColours.CONTENT.mColour)));
         ((Button)mViews[2]).setTextColor(this.mPositiveColour != 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
         ((Button)mViews[3]).setTextColor(this.mNegativeColour != 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
+        mRootView.setBackgroundColor((mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BACKGROUND.mColour) : Color.parseColor(DarkColours.BACKGROUND.mColour)));
     }
 
     public CustomDialog setClickListener(ClickListener mCallbacks) {
