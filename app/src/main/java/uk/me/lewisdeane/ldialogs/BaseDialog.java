@@ -7,39 +7,41 @@ import android.view.Gravity;
 /**
  * Created by Lewis on 30/08/2014.
  */
-public abstract class BaseDialog extends AlertDialog {
+abstract class BaseDialog extends AlertDialog {
 
-    public static enum LightColours {
+    static enum LightColours {
         TITLE("#474747"), CONTENT("#999999"), ITEM("#999999"), BUTTON("#212121");
 
-        public final String mColour;
+        final String mColour;
 
         private LightColours(String _colour) {
             this.mColour = _colour;
         }
     }
 
-    public static enum DarkColours {
+    static enum DarkColours {
         TITLE("#CCCCCC"), CONTENT("#999999"), ITEM("#999999"), BUTTON("#CCCCCC");
 
-        public final String mColour;
+        final String mColour;
 
         private DarkColours(String _colour) {
             this.mColour = _colour;
         }
     }
 
-    public static enum Theme { LIGHT, DARK }
+    static enum Theme {
+        LIGHT, DARK;
+    }
 
-    public static enum Alignment {
+    static enum Alignment {
         LEFT, CENTER, RIGHT;
     }
 
-    public BaseDialog(Context _context){
+    BaseDialog(Context _context) {
         super(_context);
     }
 
-    public static int getGravityFromAlignment(Alignment _alignment) {
+    static int getGravityFromAlignment(Alignment _alignment) {
         // Return corresponding gravity from our Alignment value.
         switch (_alignment) {
             case LEFT:

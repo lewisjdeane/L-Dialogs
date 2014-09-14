@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class CustomDialog extends BaseDialog {
 
     // Context for dialog to use.
-    private Context mContext;
+    private final Context mContext;
 
     // The layout view inflated from resources.
     private View mRootView;
@@ -26,37 +26,37 @@ public class CustomDialog extends BaseDialog {
     private View mCustomView;
 
     // Array of views containing the components of our dialog.
-    private View[] mViews = new View[4];
+    private final View[] mViews = new View[4];
 
     // Array of strings to populate the corresponding view.
-    private String[] mStrings = new String[]{"", "", "", ""};
+    private final String[] mStrings = new String[]{"", "", "", ""};
 
     // Array of linear layouts containing the 2 possible arrangements required in case stacking needed.
-    private LinearLayout[] mButtonContainers = new LinearLayout[2];
+    private final LinearLayout[] mButtonContainers = new LinearLayout[2];
 
     // Typeface used on the views.
-    private Typeface mTypeface;
+    private final Typeface mTypeface;
 
     // Our click listener which we can pass events to the user through.
     private ClickListener mCallbacks;
 
     // Theme containing the theme being used.
-    private Theme mTheme = Theme.LIGHT;
+    final Theme mTheme;
 
     // Integers containing the hex colours to be used on the views.
-    private int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
+    private final int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
 
     // Integers containing the text sizes
-    private int[] mTextSizes = new int[4];
+    private final int[] mTextSizes = new int[4];
 
     // Alignment for title to use
-    private Alignment mTitleAlignment = Alignment.LEFT;
+    private final Alignment mTitleAlignment;
 
     // We make our constructor private so we can only create it through the builder inner class.
     private CustomDialog(Builder _builder) {
 
         // Call the super class to create our new dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? android.R.style.Theme_Holo : android.R.style.Theme_Holo_Light));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? R.style.Dark : R.style.Light));
 
         // Apply the things from the builder.
         this.mContext = _builder.mContext;
@@ -74,6 +74,7 @@ public class CustomDialog extends BaseDialog {
         this.mTextSizes[1] = _builder.mContentTextSize;
         this.mTextSizes[2] = _builder.mButtonTextSize;
         this.mTextSizes[3] = this.mTextSizes[2];
+        this.mTypeface = _builder.mTypeface == null ? Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf") : _builder.mTypeface;
 
         // Set up references to views and then set the view.
         init();
@@ -109,9 +110,6 @@ public class CustomDialog extends BaseDialog {
 
         // Set alignment for title view.
         ((TextView) mViews[0]).setGravity(getGravityFromAlignment(mTitleAlignment) | Gravity.CENTER_VERTICAL);
-
-        // Load typeface from assets to be used.
-        mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
 
         // Set the view of our dialog with the one we've inflated.
         super.setView(mRootView);
@@ -263,9 +261,15 @@ public class CustomDialog extends BaseDialog {
 		private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18, mButtonTextSize = 14;
         private boolean mDarkTheme = false;
         private Alignment mTitleAlignment = Alignment.LEFT;
+        private Typeface mTypeface;
 
         public Builder content(String _content) {
             this.mContent = _content;
+            return this;
+        }
+
+        public Builder typeface(Typeface _typeface){
+            this.mTypeface = _typeface;
             return this;
         }
 

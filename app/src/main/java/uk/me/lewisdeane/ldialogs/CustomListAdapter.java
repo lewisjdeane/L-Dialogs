@@ -12,13 +12,13 @@ import android.widget.TextView;
 /**
  * Created by Lewis on 17/08/2014.
  */
-public class CustomListAdapter extends ArrayAdapter<String> {
+class CustomListAdapter extends ArrayAdapter<String> {
 
     private int mRes;
     private String[] mItems;
     private TextView mItemView;
 
-    public CustomListAdapter(Context _context, int _res, String[] _items){
+    CustomListAdapter(Context _context, int _res, String[] _items){
         super(_context, _res, _items);
 
         this.mRes = _res;
