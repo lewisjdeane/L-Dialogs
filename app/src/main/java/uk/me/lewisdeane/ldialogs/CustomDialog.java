@@ -3,7 +3,6 @@ package uk.me.lewisdeane.ldialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 public class CustomDialog extends BaseDialog {
 
     // Context for dialog to use.
-    private Context mContext;
+    private final Context mContext;
 
     // The layout view inflated from resources.
     private View mRootView;
@@ -27,40 +26,37 @@ public class CustomDialog extends BaseDialog {
     private View mCustomView;
 
     // Array of views containing the components of our dialog.
-    private View[] mViews = new View[4];
+    private final View[] mViews = new View[4];
 
     // Array of strings to populate the corresponding view.
-    private String[] mStrings = new String[]{"", "", "", ""};
+    private final String[] mStrings = new String[]{"", "", "", ""};
 
     // Array of linear layouts containing the 2 possible arrangements required in case stacking needed.
-    private LinearLayout[] mButtonContainers = new LinearLayout[2];
+    private final LinearLayout[] mButtonContainers = new LinearLayout[2];
 
     // Typeface used on the views.
-    private Typeface mTypeface;
+    private final Typeface mTypeface;
 
     // Our click listener which we can pass events to the user through.
     private ClickListener mCallbacks;
 
     // Theme containing the theme being used.
-    private Theme mTheme = Theme.LIGHT;
+    final Theme mTheme;
 
     // Integers containing the hex colours to be used on the views.
-    private int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
-
-    // Positive background
-    Drawable mPositiveBackground;
+    private final int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
 
     // Integers containing the text sizes
-    private int[] mTextSizes = new int[4];
+    private final int[] mTextSizes = new int[4];
 
     // Alignment for title to use
-    private Alignment mTitleAlignment = Alignment.LEFT;
+    private final Alignment mTitleAlignment;
 
     // We make our constructor private so we can only create it through the builder inner class.
     private CustomDialog(Builder _builder) {
 
         // Call the super class to create our new dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? android.R.style.Theme_Holo : android.R.style.Theme_Holo_Light));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? R.style.Dark : R.style.Light));
 
         // Apply the things from the builder.
         this.mContext = _builder.mContext;
@@ -78,7 +74,7 @@ public class CustomDialog extends BaseDialog {
         this.mTextSizes[1] = _builder.mContentTextSize;
         this.mTextSizes[2] = _builder.mButtonTextSize;
         this.mTextSizes[3] = this.mTextSizes[2];
-        this.mPositiveBackground = _builder.mPositiveBackground;
+        this.mTypeface = _builder.mTypeface == null ? Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf") : _builder.mTypeface;
 
         // Set up references to views and then set the view.
         init();
@@ -114,9 +110,6 @@ public class CustomDialog extends BaseDialog {
 
         // Set alignment for title view.
         ((TextView) mViews[0]).setGravity(getGravityFromAlignment(mTitleAlignment) | Gravity.CENTER_VERTICAL);
-
-        // Load typeface from assets to be used.
-        mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
 
         // Set the view of our dialog with the one we've inflated.
         super.setView(mRootView);
@@ -213,14 +206,10 @@ public class CustomDialog extends BaseDialog {
 
     private void applyTheme() {
         // Apply the correct colours based on theme and user preference.
-        ((TextView) mViews[0]).setTextColor(this.mTitleColour != 0 ? mTitleColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.TITLE.mColour) : Color.parseColor(DarkColours.TITLE.mColour)));
-        ((TextView) mViews[1]).setTextColor(this.mContentColour != 0 ? mContentColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.CONTENT.mColour) : Color.parseColor(DarkColours.CONTENT.mColour)));
-        ((Button) mViews[2]).setTextColor(this.mPositiveColour != 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
-        ((Button) mViews[3]).setTextColor(this.mNegativeColour != 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
-
-        if (null != mPositiveBackground) {
-            mViews[2].setBackgroundDrawable(mPositiveBackground);
-        }
+        ((TextView)mViews[0]).setTextColor(this.mTitleColour != 0 ? mTitleColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.TITLE.mColour) : Color.parseColor(DarkColours.TITLE.mColour)));
+        ((TextView)mViews[1]).setTextColor(this.mContentColour != 0 ? mContentColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.CONTENT.mColour) : Color.parseColor(DarkColours.CONTENT.mColour)));
+        ((Button)mViews[2]).setTextColor(this.mPositiveColour != 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
+        ((Button)mViews[3]).setTextColor(this.mNegativeColour != 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
     }
 
     public CustomDialog setClickListener(ClickListener mCallbacks) {
@@ -269,13 +258,18 @@ public class CustomDialog extends BaseDialog {
 
         // Optional parameters initialised by default.
         private String mNegativeText = "", mContent = "";
-        private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18, mButtonTextSize = 14;
+		private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18, mButtonTextSize = 14;
         private boolean mDarkTheme = false;
         private Alignment mTitleAlignment = Alignment.LEFT;
-        Drawable mPositiveBackground;
+        private Typeface mTypeface;
 
         public Builder content(String _content) {
             this.mContent = _content;
+            return this;
+        }
+
+        public Builder typeface(Typeface _typeface){
+            this.mTypeface = _typeface;
             return this;
         }
 
@@ -294,17 +288,17 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColor(String _negativeColour) {
+        public Builder negativeColor(String _negativeColour){
             this.mNegativeColour = Color.parseColor(_negativeColour);
             return this;
         }
 
-        public Builder titleColor(String _colour) {
+        public Builder titleColor(String _colour){
             this.mTitleColour = Color.parseColor(_colour);
             return this;
         }
 
-        public Builder contentColor(String _colour) {
+        public Builder contentColor(String _colour){
             this.mContentColour = Color.parseColor(_colour);
             return this;
         }
@@ -314,17 +308,17 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColor(int _negativeColour) {
+        public Builder negativeColor(int _negativeColour){
             this.mNegativeColour = _negativeColour;
             return this;
         }
 
-        public Builder titleColor(int _colour) {
+        public Builder titleColor(int _colour){
             this.mTitleColour = _colour;
             return this;
         }
 
-        public Builder contentColor(int _colour) {
+        public Builder contentColor(int _colour){
             this.mContentColour = _colour;
             return this;
         }
@@ -334,32 +328,32 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColorRes(int _negativeColour) {
+        public Builder negativeColorRes(int _negativeColour){
             this.mNegativeColour = mContext.getResources().getColor(_negativeColour);
             return this;
         }
 
-        public Builder titleColorRes(int _colour) {
+        public Builder titleColorRes(int _colour){
             this.mTitleColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder contentColorRes(int _colour) {
+        public Builder contentColorRes(int _colour){
             this.mContentColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder titleTextSize(int _textSize) {
+        public Builder titleTextSize(int _textSize){
             this.mTitleTextSize = _textSize;
             return this;
         }
 
-        public Builder contentTextSize(int _textSize) {
+        public Builder contentTextSize(int _textSize){
             this.mContentTextSize = _textSize;
             return this;
         }
 
-        public Builder buttonTextSize(int _textSize) {
+        public Builder buttonTextSize(int _textSize){
             this.mButtonTextSize = _textSize;
             return this;
         }
@@ -371,16 +365,6 @@ public class CustomDialog extends BaseDialog {
 
         public Builder titleAlignment(Alignment _alignment) {
             this.mTitleAlignment = _alignment;
-            return this;
-        }
-
-        public Builder positiveBackground(Drawable _positiveBkgd) {
-            this.mPositiveBackground = _positiveBkgd;
-            return this;
-        }
-
-        public Builder positiveBackground(int _positiveBkgd) {
-            this.mPositiveBackground = mContext.getResources().getDrawable(_positiveBkgd);
             return this;
         }
 

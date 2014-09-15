@@ -18,31 +18,31 @@ import android.widget.TextView;
 public class CustomListDialog extends BaseDialog {
 
     // Context used to create the dialog.
-    private Context mContext;
+    private final Context mContext;
 
     // String containing the title text.
-    private String mTitle = "";
+    private final String mTitle;
 
     // Array of string containing the items for the list.
-    private String[] mItems;
+    private final String[] mItems;
 
     // Colour of title.
-    private int mTitleColour;
+    private final int mTitleColour;
 
     // Colour of items.
-    public static int mItemColour;
+    static int mItemColour;
 
     // Text size of the title
-    private int mTitleTextSize;
+    private final int mTitleTextSize;
 
     // Text size of the items
-    public static int mItemTextSize;
+    static int mItemTextSize;
 
     // Alignment containing where to align the title
-    private Alignment mTitleAlignment = Alignment.LEFT;
+    private final Alignment mTitleAlignment;
 
     // Alignment containing where to align the items
-    public static Alignment mItemAlignment = Alignment.LEFT;
+    static Alignment mItemAlignment;
 
     // View containing the layout view.
     private View mRootView;
@@ -60,16 +60,16 @@ public class CustomListDialog extends BaseDialog {
     private ListClickListener mCallbacks;
 
     // Typeface containing the font to use in dialog.
-    public static Typeface mTypeface;
+    static Typeface mTypeface;
 
     // Theme containing the chosen theme.
-    public static Theme mTheme = Theme.LIGHT;
+    static Theme mTheme = Theme.LIGHT;
 
     // Make this class private so it can only be built through the builder.
     private CustomListDialog(Builder _builder) {
 
         // Call super class constructor to create our dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? android.R.style.Theme_Holo : android.R.style.Theme_Holo_Light));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? R.style.Dark : R.style.Light));
 
         // Set correct properties.
         this.mContext = _builder.mContext;
@@ -82,6 +82,7 @@ public class CustomListDialog extends BaseDialog {
         this.mItemAlignment = _builder.mItemAlignment;
         this.mTitleTextSize = _builder.mTitleTextSize;
         this.mItemTextSize = _builder.mItemTextSize;
+        this.mTypeface = _builder.mTypeface == null ? Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf") : _builder.mTypeface;
 
         // Reference everything needed and set the dialog view.
         init();
@@ -98,9 +99,6 @@ public class CustomListDialog extends BaseDialog {
         mRootView = LayoutInflater.from(mContext).inflate(
                 R.layout.dialog_list_custom,
                 null);
-
-        // Reference typeface from assets.
-        mTypeface = Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf");
 
         // Reference views needed in dialog.
         mTitleView = (TextView) mRootView.findViewById(R.id.dialog_list_custom_title);
@@ -178,6 +176,12 @@ public class CustomListDialog extends BaseDialog {
         private Alignment mTitleAlignment = Alignment.LEFT, mItemAlignment = Alignment.LEFT;
         private int mTitleColour = 0, mItemColour = 0, mTitleTextSize = 22, mItemTextSize = 18;
         private boolean mIsDark = false;
+        private Typeface mTypeface;
+
+        public Builder typeface(Typeface _typeface){
+            this.mTypeface = _typeface;
+            return this;
+        }
 
         public Builder titleAlignment(Alignment _alignment) {
             this.mTitleAlignment = _alignment;
