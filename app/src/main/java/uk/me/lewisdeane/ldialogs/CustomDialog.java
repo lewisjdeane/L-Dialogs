@@ -59,6 +59,9 @@ public class CustomDialog extends BaseDialog {
     // Alignment for button to use
     private Alignment mButtonsAlignment = Alignment.RIGHT;
 
+    // boolean containing whether or not its intended to be right to left.
+    private final boolean RTL;
+
     // We make our constructor private so we can only create it through the
     // builder inner class.
     private CustomDialog(Builder _builder) {
@@ -85,6 +88,7 @@ public class CustomDialog extends BaseDialog {
         this.mContetAlignment = _builder.mContentAlignment;
         this.mButtonsAlignment = _builder.mButtonsAlignment;
         this.mTypeface = _builder.mTypeface;
+        this.RTL = _builder.RTL;
 
         // Set up references to views and then set the view.
         init();
@@ -137,6 +141,12 @@ public class CustomDialog extends BaseDialog {
         ((TextView) mViews[1])
                 .setGravity(getGravityFromAlignment(mContetAlignment)
                         | Gravity.CENTER_VERTICAL);
+
+        // Swap position of positive button and negative button if right to left required.
+        if(RTL){
+            ((ViewGroup) mViews[2].getParent()).removeView(mViews[3]);
+            ((ViewGroup) mViews[2].getParent()).addView(mViews[3], 0);
+        }
 
         // Set the view of our dialog with the one we've inflated.
         super.setView(mRootView);
@@ -331,6 +341,7 @@ public class CustomDialog extends BaseDialog {
                 mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18,
                 mButtonTextSize = 14;
         private boolean mDarkTheme = false;
+        private boolean RTL = false;
 
         private Alignment mTitleAlignment = Alignment.LEFT;
         private Alignment mContentAlignment = Alignment.LEFT;
@@ -450,6 +461,7 @@ public class CustomDialog extends BaseDialog {
         }
 
         public Builder rightToLeft(boolean _rightToLeft) {
+            RTL = _rightToLeft;
             if (_rightToLeft) {
                 this.mTitleAlignment = Alignment.RIGHT;
                 this.mContentAlignment = Alignment.RIGHT;
