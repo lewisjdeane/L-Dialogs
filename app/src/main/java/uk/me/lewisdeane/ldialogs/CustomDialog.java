@@ -336,6 +336,7 @@ public class CustomDialog extends BaseDialog {
         private Alignment mContentAlignment = Alignment.LEFT;
         private Alignment mButtonsAlignment = Alignment.RIGHT;
 
+
         public Builder content(String _content) {
             this.mContent = _content;
             return this;

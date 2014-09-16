@@ -69,7 +69,7 @@ public class CustomListDialog extends BaseDialog {
     private CustomListDialog(Builder _builder) {
 
         // Call super class constructor to create our dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? R.style.Dark : R.style.Dark));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? R.style.Dark : R.style.Light));
 
         // Set correct properties.
         this.mContext = _builder.mContext;
