@@ -48,6 +48,7 @@ CustomDialog.Builder builder = new CustomDialog.Builder(Context context, String 
 builder.content(String content);
 builder.negativeText(String negativeText);
 builder.darkTheme(boolean isDark);
+builder.typeface(Typeface typeface);
 builder.titleTextSize(int size);
 builder.contentTextSize(int size);
 builder.buttonTextSize(int size);
@@ -99,6 +100,7 @@ CustomListDialog.Builder builder = new CustomListDialog.Builder(Context context,
 
 // Now again we can use some extra methods on the builder to customise it more.
 builder.darkTheme(boolean isDark);
+builder.typeface(Typeface typeface);
 builder.titleAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
 builder.itemAlignment(Alignment alignment); // Use either Alignment.LEFT, Alignment.CENTER or Alignment.RIGHT
 builder.titleColor(String hex); // int res, or int colorRes parameter versions available as well.
