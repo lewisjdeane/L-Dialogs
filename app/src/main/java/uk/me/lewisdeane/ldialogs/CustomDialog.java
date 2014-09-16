@@ -17,7 +17,7 @@ import android.widget.TextView;
 public class CustomDialog extends BaseDialog {
 
     // Context for dialog to use.
-    private final Context mContext;
+    private Context mContext;
 
     // The layout view inflated from resources.
     private View mRootView;
@@ -26,33 +26,41 @@ public class CustomDialog extends BaseDialog {
     private View mCustomView;
 
     // Array of views containing the components of our dialog.
-    private final View[] mViews = new View[4];
+    private View[] mViews = new View[4];
 
     // Array of strings to populate the corresponding view.
-    private final String[] mStrings = new String[]{"", "", "", ""};
+    private String[] mStrings = new String[] { "", "", "", "" };
 
-    // Array of linear layouts containing the 2 possible arrangements required in case stacking needed.
-    private final LinearLayout[] mButtonContainers = new LinearLayout[2];
+    // Array of linear layouts containing the 2 possible arrangements required
+    // in case stacking needed.
+    private LinearLayout[] mButtonContainers = new LinearLayout[2];
 
     // Typeface used on the views.
-    private final Typeface mTypeface;
+    private Typeface mTypeface;
 
     // Our click listener which we can pass events to the user through.
     private ClickListener mCallbacks;
 
     // Theme containing the theme being used.
-    final Theme mTheme;
+    private Theme mTheme = Theme.LIGHT;
 
     // Integers containing the hex colours to be used on the views.
-    private final int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
+    private int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
 
     // Integers containing the text sizes
-    private final int[] mTextSizes = new int[4];
+    private int[] mTextSizes = new int[4];
 
     // Alignment for title to use
-    private final Alignment mTitleAlignment;
+    private Alignment mTitleAlignment = Alignment.LEFT;
 
-    // We make our constructor private so we can only create it through the builder inner class.
+    // Alignment for content to use
+    private Alignment mContetAlignment = Alignment.LEFT;
+
+    // Alignment for button to use
+    private Alignment mButtonsAlignment = Alignment.RIGHT;
+
+    // We make our constructor private so we can only create it through the
+    // builder inner class.
     private CustomDialog(Builder _builder) {
 
         // Call the super class to create our new dialog.
@@ -74,7 +82,9 @@ public class CustomDialog extends BaseDialog {
         this.mTextSizes[1] = _builder.mContentTextSize;
         this.mTextSizes[2] = _builder.mButtonTextSize;
         this.mTextSizes[3] = this.mTextSizes[2];
-        this.mTypeface = _builder.mTypeface == null ? Typeface.createFromAsset(getContext().getResources().getAssets(), "Roboto-Medium.ttf") : _builder.mTypeface;
+        this.mContetAlignment = _builder.mContentAlignment;
+        this.mButtonsAlignment = _builder.mButtonsAlignment;
+        this.mTypeface = _builder.mTypeface;
 
         // Set up references to views and then set the view.
         init();
@@ -95,8 +105,7 @@ public class CustomDialog extends BaseDialog {
     private void init() {
         // Reference root view by inflating the layout file.
         mRootView = LayoutInflater.from(mContext).inflate(
-                R.layout.dialog_custom,
-                null);
+                R.layout.dialog_custom, null);
 
         // Reference the views.
         mViews[0] = mRootView.findViewById(R.id.dialog_custom_title);
@@ -105,11 +114,29 @@ public class CustomDialog extends BaseDialog {
         mViews[3] = mRootView.findViewById(R.id.dialog_custom_cancel);
 
         // Reference containers for the buttons.
-        mButtonContainers[0] = (LinearLayout) mRootView.findViewById(R.id.dialog_custom_alongside_buttons);
-        mButtonContainers[1] = (LinearLayout) mRootView.findViewById(R.id.dialog_custom_stacked_buttons);
+        mButtonContainers[0] = (LinearLayout) mRootView
+                .findViewById(R.id.dialog_custom_alongside_buttons);
+        mButtonContainers[1] = (LinearLayout) mRootView
+                .findViewById(R.id.dialog_custom_stacked_buttons);
+
+        // Set alignment for buttons view.
+        mButtonContainers[0]
+                .setGravity(getGravityFromAlignment(mButtonsAlignment)
+                        | Gravity.CENTER_VERTICAL);
+
+        mButtonContainers[1]
+                .setGravity(getGravityFromAlignment(mButtonsAlignment)
+                        | Gravity.CENTER_VERTICAL);
 
         // Set alignment for title view.
-        ((TextView) mViews[0]).setGravity(getGravityFromAlignment(mTitleAlignment) | Gravity.CENTER_VERTICAL);
+        ((TextView) mViews[0])
+                .setGravity(getGravityFromAlignment(mTitleAlignment)
+                        | Gravity.CENTER_VERTICAL);
+
+        // Set alignment for content view.
+        ((TextView) mViews[1])
+                .setGravity(getGravityFromAlignment(mContetAlignment)
+                        | Gravity.CENTER_VERTICAL);
 
         // Set the view of our dialog with the one we've inflated.
         super.setView(mRootView);
@@ -141,11 +168,17 @@ public class CustomDialog extends BaseDialog {
 
     private void checkIfButtonStackingNeeded() {
         // Check if the text on the button is too big for the button.
-        boolean isStackingNeeded = ((Button) mViews[2]).getPaint().measureText(((Button) mViews[2]).getText().toString()) > convertToPx(56) || ((Button) mViews[2]).getPaint().measureText(((Button) mViews[3]).getText().toString()) > convertToPx(56);
+        boolean isStackingNeeded = ((Button) mViews[2]).getPaint().measureText(
+                ((Button) mViews[2]).getText().toString()) > convertToPx(56)
+                || ((Button) mViews[2]).getPaint().measureText(
+                ((Button) mViews[3]).getText().toString()) > convertToPx(56);
 
-        // Toggle visibility of the layouts based on whether switching is needed.
-        mButtonContainers[0].setVisibility(isStackingNeeded ? View.GONE : View.VISIBLE);
-        mButtonContainers[1].setVisibility(isStackingNeeded ? View.VISIBLE : View.GONE);
+        // Toggle visibility of the layouts based on whether switching is
+        // needed.
+        mButtonContainers[0].setVisibility(isStackingNeeded ? View.GONE
+                : View.VISIBLE);
+        mButtonContainers[1].setVisibility(isStackingNeeded ? View.VISIBLE
+                : View.GONE);
 
         // Now the data may have changed we need to re-reference the buttons.
         updateButtonReferences(isStackingNeeded);
@@ -153,8 +186,12 @@ public class CustomDialog extends BaseDialog {
 
     private void updateButtonReferences(boolean _isStackingNeeded) {
         // Re-reference the buttons.
-        mViews[2] = mRootView.findViewById(_isStackingNeeded ? R.id.dialog_custom_confirm_stacked : R.id.dialog_custom_confirm);
-        mViews[3] = mRootView.findViewById(_isStackingNeeded ? R.id.dialog_custom_cancel_stacked : R.id.dialog_custom_cancel);
+        mViews[2] = mRootView
+                .findViewById(_isStackingNeeded ? R.id.dialog_custom_confirm_stacked
+                        : R.id.dialog_custom_confirm);
+        mViews[3] = mRootView
+                .findViewById(_isStackingNeeded ? R.id.dialog_custom_cancel_stacked
+                        : R.id.dialog_custom_cancel);
 
         // Apply the data to the newly referenced views.
         setViewProperties(mViews, mStrings);
@@ -162,18 +199,22 @@ public class CustomDialog extends BaseDialog {
 
     private float convertToPx(float _dp) {
         // Convert any density pixel value to it's corresponding pixel value.
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, _dp, mContext.getResources().getDisplayMetrics());
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, _dp,
+                mContext.getResources().getDisplayMetrics());
     }
 
     private void setViewProperties(View[] _view, String[] _text) {
-        // Loop through the views passed in and set the correct data to that view.
+        // Loop through the views passed in and set the correct data to that
+        // view.
         for (int i = 0; i < _view.length; i++) {
 
-            // Gets the index from the mViews array as _view array may be a different ordering and size to mViews.
+            // Gets the index from the mViews array as _view array may be a
+            // different ordering and size to mViews.
             int index = getIndexFromView(_view[i]);
 
             // Hide the view if there is no data for this view.
-            mViews[index].setVisibility(_text[i].equals("") ? View.GONE : View.VISIBLE);
+            mViews[index].setVisibility(_text[i].equals("") ? View.GONE
+                    : View.VISIBLE);
 
             // Reference the new text correctly..
             mStrings[index] = _text[i];
@@ -183,20 +224,23 @@ public class CustomDialog extends BaseDialog {
                 Button button = (Button) mViews[index];
                 button.setText(mStrings[index].toUpperCase());
                 button.setTypeface(mTypeface);
-                button.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizes[index]);
+                button.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                        mTextSizes[index]);
             }
             // Otherwise treat view as a text view.
             else {
                 TextView textView = (TextView) mViews[index];
                 textView.setText(mStrings[index]);
                 textView.setTypeface(mTypeface);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSizes[index]);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,
+                        mTextSizes[index]);
             }
         }
     }
 
     private int getIndexFromView(View _view) {
-        // Gets the correct index of the passed in view from the main array of views.
+        // Gets the correct index of the passed in view from the main array of
+        // views.
         for (int i = 0; i < mViews.length; i++) {
             if (mViews[i] == _view)
                 return i;
@@ -206,10 +250,26 @@ public class CustomDialog extends BaseDialog {
 
     private void applyTheme() {
         // Apply the correct colours based on theme and user preference.
-        ((TextView)mViews[0]).setTextColor(this.mTitleColour != 0 ? mTitleColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.TITLE.mColour) : Color.parseColor(DarkColours.TITLE.mColour)));
-        ((TextView)mViews[1]).setTextColor(this.mContentColour != 0 ? mContentColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.CONTENT.mColour) : Color.parseColor(DarkColours.CONTENT.mColour)));
-        ((Button)mViews[2]).setTextColor(this.mPositiveColour != 0 ? mPositiveColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
-        ((Button)mViews[3]).setTextColor(this.mNegativeColour != 0 ? mNegativeColour : (mTheme == Theme.LIGHT ? Color.parseColor(LightColours.BUTTON.mColour) : Color.parseColor(DarkColours.BUTTON.mColour)));
+        ((TextView) mViews[0])
+                .setTextColor(this.mTitleColour != 0 ? mTitleColour
+                        : (mTheme == Theme.LIGHT ? Color
+                        .parseColor(LightColours.TITLE.mColour) : Color
+                        .parseColor(DarkColours.TITLE.mColour)));
+        ((TextView) mViews[1])
+                .setTextColor(this.mContentColour != 0 ? mContentColour
+                        : (mTheme == Theme.LIGHT ? Color
+                        .parseColor(LightColours.CONTENT.mColour)
+                        : Color.parseColor(DarkColours.CONTENT.mColour)));
+        ((Button) mViews[2])
+                .setTextColor(this.mPositiveColour != 0 ? mPositiveColour
+                        : (mTheme == Theme.LIGHT ? Color
+                        .parseColor(LightColours.BUTTON.mColour)
+                        : Color.parseColor(DarkColours.BUTTON.mColour)));
+        ((Button) mViews[3])
+                .setTextColor(this.mNegativeColour != 0 ? mNegativeColour
+                        : (mTheme == Theme.LIGHT ? Color
+                        .parseColor(LightColours.BUTTON.mColour)
+                        : Color.parseColor(DarkColours.BUTTON.mColour)));
     }
 
     public CustomDialog setClickListener(ClickListener mCallbacks) {
@@ -242,34 +302,42 @@ public class CustomDialog extends BaseDialog {
         // Required fields for the dialog.
         private final Context mContext;
         private final String mTitle, mPositiveText;
+        Typeface mTypeface;
 
         // Builder constructor that all dialogs will be created through.
         public Builder(Context _context, String _title, String _positiveText) {
             this.mContext = _context;
             this.mTitle = _title;
             this.mPositiveText = _positiveText;
+
+            // Load typeface from assets to be used.
+            mTypeface = Typeface.createFromAsset(this.mContext.getResources()
+                    .getAssets(), "Roboto-Medium.ttf");
         }
 
         public Builder(Context _context, int _titleResId, int _positiveTextResId) {
             this.mContext = _context;
             this.mTitle = mContext.getString(_titleResId);
             this.mPositiveText = mContext.getString(_positiveTextResId);
+
+            // Load typeface from assets to be used.
+            mTypeface = Typeface.createFromAsset(this.mContext.getResources()
+                    .getAssets(), "Roboto-Medium.ttf");
         }
 
         // Optional parameters initialised by default.
         private String mNegativeText = "", mContent = "";
-		private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0, mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18, mButtonTextSize = 14;
+        private int mPositiveColour = 0, mNegativeColour = 0, mTitleColour = 0,
+                mContentColour = 0, mTitleTextSize = 22, mContentTextSize = 18,
+                mButtonTextSize = 14;
         private boolean mDarkTheme = false;
+
         private Alignment mTitleAlignment = Alignment.LEFT;
-        private Typeface mTypeface;
+        private Alignment mContentAlignment = Alignment.LEFT;
+        private Alignment mButtonsAlignment = Alignment.RIGHT;
 
         public Builder content(String _content) {
             this.mContent = _content;
-            return this;
-        }
-
-        public Builder typeface(Typeface _typeface){
-            this.mTypeface = _typeface;
             return this;
         }
 
@@ -288,17 +356,17 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColor(String _negativeColour){
+        public Builder negativeColor(String _negativeColour) {
             this.mNegativeColour = Color.parseColor(_negativeColour);
             return this;
         }
 
-        public Builder titleColor(String _colour){
+        public Builder titleColor(String _colour) {
             this.mTitleColour = Color.parseColor(_colour);
             return this;
         }
 
-        public Builder contentColor(String _colour){
+        public Builder contentColor(String _colour) {
             this.mContentColour = Color.parseColor(_colour);
             return this;
         }
@@ -308,52 +376,54 @@ public class CustomDialog extends BaseDialog {
             return this;
         }
 
-        public Builder negativeColor(int _negativeColour){
+        public Builder negativeColor(int _negativeColour) {
             this.mNegativeColour = _negativeColour;
             return this;
         }
 
-        public Builder titleColor(int _colour){
+        public Builder titleColor(int _colour) {
             this.mTitleColour = _colour;
             return this;
         }
 
-        public Builder contentColor(int _colour){
+        public Builder contentColor(int _colour) {
             this.mContentColour = _colour;
             return this;
         }
 
         public Builder positiveColorRes(int _positiveColour) {
-            this.mPositiveColour = mContext.getResources().getColor(_positiveColour);
+            this.mPositiveColour = mContext.getResources().getColor(
+                    _positiveColour);
             return this;
         }
 
-        public Builder negativeColorRes(int _negativeColour){
-            this.mNegativeColour = mContext.getResources().getColor(_negativeColour);
+        public Builder negativeColorRes(int _negativeColour) {
+            this.mNegativeColour = mContext.getResources().getColor(
+                    _negativeColour);
             return this;
         }
 
-        public Builder titleColorRes(int _colour){
+        public Builder titleColorRes(int _colour) {
             this.mTitleColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder contentColorRes(int _colour){
+        public Builder contentColorRes(int _colour) {
             this.mContentColour = mContext.getResources().getColor(_colour);
             return this;
         }
 
-        public Builder titleTextSize(int _textSize){
+        public Builder titleTextSize(int _textSize) {
             this.mTitleTextSize = _textSize;
             return this;
         }
 
-        public Builder contentTextSize(int _textSize){
+        public Builder contentTextSize(int _textSize) {
             this.mContentTextSize = _textSize;
             return this;
         }
 
-        public Builder buttonTextSize(int _textSize){
+        public Builder buttonTextSize(int _textSize) {
             this.mButtonTextSize = _textSize;
             return this;
         }
@@ -365,6 +435,30 @@ public class CustomDialog extends BaseDialog {
 
         public Builder titleAlignment(Alignment _alignment) {
             this.mTitleAlignment = _alignment;
+            return this;
+        }
+
+        public Builder contentAlignment(Alignment _alignment) {
+            this.mContentAlignment = _alignment;
+            return this;
+        }
+
+        public Builder buttonAlignment(Alignment _alignment) {
+            this.mButtonsAlignment = _alignment;
+            return this;
+        }
+
+        public Builder rightToLeft(boolean _rightToLeft) {
+            if (_rightToLeft) {
+                this.mTitleAlignment = Alignment.RIGHT;
+                this.mContentAlignment = Alignment.RIGHT;
+                this.mButtonsAlignment = Alignment.LEFT;
+            }
+            return this;
+        }
+
+        public Builder typeface(Typeface _typeface) {
+            this.mTypeface = _typeface;
             return this;
         }
 
