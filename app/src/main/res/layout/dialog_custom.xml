@@ -10,7 +10,7 @@
 
     <TextView
         android:id="@+id/dialog_custom_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="24dp"
         android:paddingRight="24dp"
@@ -34,7 +34,7 @@
 
     <LinearLayout
         android:id="@+id/dialog_custom_alongside_buttons"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="16dp"
@@ -71,7 +71,7 @@
 
     <LinearLayout
         android:id="@+id/dialog_custom_stacked_buttons"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
         android:layout_marginRight="16dp"
