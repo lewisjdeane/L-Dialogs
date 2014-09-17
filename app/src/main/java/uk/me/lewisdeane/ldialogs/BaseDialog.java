@@ -7,7 +7,7 @@ import android.view.Gravity;
 /**
  * Created by Lewis on 30/08/2014.
  */
-abstract class BaseDialog extends AlertDialog {
+public abstract class BaseDialog extends AlertDialog {
 
     static enum LightColours {
         TITLE("#474747"), CONTENT("#999999"), ITEM("#999999"), BUTTON("#212121");
@@ -33,7 +33,7 @@ abstract class BaseDialog extends AlertDialog {
         LIGHT, DARK;
     }
 
-    static enum Alignment {
+    public static enum Alignment {
         LEFT, CENTER, RIGHT;
     }
 
