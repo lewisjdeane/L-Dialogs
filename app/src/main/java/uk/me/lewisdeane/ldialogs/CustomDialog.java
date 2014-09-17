@@ -3,6 +3,7 @@ package uk.me.lewisdeane.ldialogs;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
@@ -47,6 +48,9 @@ public class CustomDialog extends BaseDialog {
     // Integers containing the hex colours to be used on the views.
     private int mPositiveColour, mNegativeColour, mTitleColour, mContentColour;
 
+    // Positive background
+    Drawable mPositiveBackground;
+
     // Integers containing the text sizes
     private int[] mTextSizes = new int[4];
 
@@ -89,6 +93,7 @@ public class CustomDialog extends BaseDialog {
         this.mButtonsAlignment = _builder.mButtonsAlignment;
         this.mTypeface = _builder.mTypeface;
         this.RTL = _builder.RTL;
+        this.mPositiveBackground = _builder.mPositiveBackground;
 
         // Set up references to views and then set the view.
         init();
@@ -245,7 +250,7 @@ public class CustomDialog extends BaseDialog {
         if(RTL){
             ((ViewGroup) mViews[3].getParent()).removeView(mViews[2]);
             ((ViewGroup) mViews[3].getParent()).addView(mViews[2], 0);
-        }
+    }
     }
 
     private int getIndexFromView(View _view) {
@@ -280,6 +285,10 @@ public class CustomDialog extends BaseDialog {
                         : (mTheme == Theme.LIGHT ? Color
                         .parseColor(LightColours.BUTTON.mColour)
                         : Color.parseColor(DarkColours.BUTTON.mColour)));
+
+        if (null != mPositiveBackground) {
+            mViews[2].setBackgroundDrawable(mPositiveBackground);
+        }
     }
 
     public CustomDialog setClickListener(ClickListener mCallbacks) {
@@ -346,6 +355,7 @@ public class CustomDialog extends BaseDialog {
         private Alignment mTitleAlignment = Alignment.LEFT;
         private Alignment mContentAlignment = Alignment.LEFT;
         private Alignment mButtonsAlignment = Alignment.RIGHT;
+        private Drawable mPositiveBackground;
 
 
         public Builder content(String _content) {
@@ -472,6 +482,16 @@ public class CustomDialog extends BaseDialog {
 
         public Builder typeface(Typeface _typeface) {
             this.mTypeface = _typeface;
+            return this;
+        }
+
+        public Builder positiveBackground(Drawable _positiveBkgd) {
+            this.mPositiveBackground = _positiveBkgd;
+            return this;
+        }
+
+        public Builder positiveBackground(int _positiveBkgd) {
+            this.mPositiveBackground = mContext.getResources().getDrawable(_positiveBkgd);
             return this;
         }
 
