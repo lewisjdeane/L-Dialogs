@@ -142,12 +142,6 @@ public class CustomDialog extends BaseDialog {
                 .setGravity(getGravityFromAlignment(mContetAlignment)
                         | Gravity.CENTER_VERTICAL);
 
-        // Swap position of positive button and negative button if right to left required.
-        if(RTL){
-            ((ViewGroup) mViews[2].getParent()).removeView(mViews[3]);
-            ((ViewGroup) mViews[2].getParent()).addView(mViews[3], 0);
-        }
-
         // Set the view of our dialog with the one we've inflated.
         super.setView(mRootView);
     }
@@ -245,6 +239,12 @@ public class CustomDialog extends BaseDialog {
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_SP,
                         mTextSizes[index]);
             }
+        }
+
+        // Swap position of positive button and negative button if right to left required.
+        if(RTL){
+            ((ViewGroup) mViews[3].getParent()).removeView(mViews[2]);
+            ((ViewGroup) mViews[3].getParent()).addView(mViews[2], 0);
         }
     }
 
@@ -461,7 +461,7 @@ public class CustomDialog extends BaseDialog {
         }
 
         public Builder rightToLeft(boolean _rightToLeft) {
-            RTL = _rightToLeft;
+            this.RTL = _rightToLeft;
             if (_rightToLeft) {
                 this.mTitleAlignment = Alignment.RIGHT;
                 this.mContentAlignment = Alignment.RIGHT;
