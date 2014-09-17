@@ -57,6 +57,8 @@ builder.titleColor(String hex); // int res, or int colorRes parameter versions a
 builder.contentColor(String hex); // int res, or int colorRes parameter versions available as well.
 builder.positiveColor(String hex); // int res, or int colorRes parameter versions available as well.
 builder.negativeColor(String hex); // int res, or int colorRes parameter versions available as well.
+builder.positiveBackground(Drawable drawable); // int res parameter version also available.
+builder.rightToLeft(boolean rightToLeft); // Enables right to left positioning for languages that may require so.
 
 // Now we can build the dialog.
 CustomDialog customDialog = builder.build();
@@ -107,6 +109,7 @@ builder.titleColor(String hex); // int res, or int colorRes parameter versions a
 builder.itemColor(String hex); // int res, or int colorRes parameter versions available as well.
 builder.titleTextSize(int size);
 builder.itemTextSize(int size);
+builder.rightToLeft(boolean rightToLeft); // Enables right to left positioning for languages that may require so.
 
 // Now we can build our dialog.
 CustomListDialog customListDialog = builder.build();
