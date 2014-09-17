@@ -238,6 +238,14 @@ public class CustomListDialog extends BaseDialog {
             return this;
         }
 
+        public Builder rightToLeft(boolean _rightToLeft){
+            if(_rightToLeft){
+                this.mTitleAlignment = Alignment.RIGHT;
+                this.mItemAlignment = Alignment.RIGHT;
+            }
+            return this;
+        }
+
         public CustomListDialog build() {
             return new CustomListDialog(this);
         }

@@ -58,7 +58,7 @@ public class CustomDialog extends BaseDialog {
     private Alignment mTitleAlignment = Alignment.LEFT;
 
     // Alignment for content to use
-    private Alignment mContetAlignment = Alignment.LEFT;
+    private Alignment mContentAlignment = Alignment.LEFT;
 
     // Alignment for button to use
     private Alignment mButtonsAlignment = Alignment.RIGHT;
@@ -89,7 +89,7 @@ public class CustomDialog extends BaseDialog {
         this.mTextSizes[1] = _builder.mContentTextSize;
         this.mTextSizes[2] = _builder.mButtonTextSize;
         this.mTextSizes[3] = this.mTextSizes[2];
-        this.mContetAlignment = _builder.mContentAlignment;
+        this.mContentAlignment = _builder.mContentAlignment;
         this.mButtonsAlignment = _builder.mButtonsAlignment;
         this.mTypeface = _builder.mTypeface;
         this.RTL = _builder.RTL;
@@ -144,7 +144,7 @@ public class CustomDialog extends BaseDialog {
 
         // Set alignment for content view.
         ((TextView) mViews[1])
-                .setGravity(getGravityFromAlignment(mContetAlignment)
+                .setGravity(getGravityFromAlignment(mContentAlignment)
                         | Gravity.CENTER_VERTICAL);
 
         // Set the view of our dialog with the one we've inflated.
