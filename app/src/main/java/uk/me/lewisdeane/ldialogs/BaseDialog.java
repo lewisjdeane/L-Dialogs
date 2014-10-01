@@ -10,7 +10,7 @@ import android.view.Gravity;
 public abstract class BaseDialog extends AlertDialog {
 
     static enum LightColours {
-        TITLE("#474747"), CONTENT("#999999"), ITEM("#999999"), BUTTON("#212121");
+        TITLE("#474747"), CONTENT("#999999"), ITEM("#999999"), POSITIVE("#5677FC"), BUTTON("#212121");
 
         final String mColour;
 
@@ -20,7 +20,7 @@ public abstract class BaseDialog extends AlertDialog {
     }
 
     static enum DarkColours {
-        TITLE("#CCCCCC"), CONTENT("#999999"), ITEM("#999999"), BUTTON("#CCCCCC");
+        TITLE("#CCCCCC"), CONTENT("#999999"), ITEM("#999999"), POSITIVE("#5677FC"), BUTTON("#CCCCCC");
 
         final String mColour;
 

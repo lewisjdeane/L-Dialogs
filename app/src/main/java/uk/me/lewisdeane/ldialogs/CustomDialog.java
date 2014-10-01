@@ -278,8 +278,8 @@ public class CustomDialog extends BaseDialog {
         ((Button) mViews[2])
                 .setTextColor(this.mPositiveColour != 0 ? mPositiveColour
                         : (mTheme == Theme.LIGHT ? Color
-                        .parseColor(LightColours.BUTTON.mColour)
-                        : Color.parseColor(DarkColours.BUTTON.mColour)));
+                        .parseColor(LightColours.POSITIVE.mColour)
+                        : Color.parseColor(DarkColours.POSITIVE.mColour)));
         ((Button) mViews[3])
                 .setTextColor(this.mNegativeColour != 0 ? mNegativeColour
                         : (mTheme == Theme.LIGHT ? Color
