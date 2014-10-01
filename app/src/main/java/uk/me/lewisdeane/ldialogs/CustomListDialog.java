@@ -26,11 +26,17 @@ public class CustomListDialog extends BaseDialog {
     // Array of string containing the items for the list.
     private final String[] mItems;
 
+    // Position of selected item.
+    private final int mItemSelected;
+
     // Colour of title.
     private final int mTitleColour;
 
     // Colour of items.
     static int mItemColour;
+
+    // Colour of selected item.
+    static int mItemSelectedColour;
 
     // Text size of the title
     private final int mTitleTextSize;
@@ -76,8 +82,10 @@ public class CustomListDialog extends BaseDialog {
         this.mTheme = _builder.mIsDark ? Theme.DARK : Theme.LIGHT;
         this.mTitle = _builder.mTitle;
         this.mItems = _builder.mItems;
+        this.mItemSelected = _builder.mItemSelected;
         this.mTitleColour = _builder.mTitleColour != 0 ? _builder.mTitleColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.TITLE.mColour) : Color.parseColor(LightColours.TITLE.mColour));
         this.mItemColour = _builder.mItemColour != 0 ? _builder.mItemColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.ITEM.mColour) : Color.parseColor(LightColours.ITEM.mColour));
+        this.mItemSelectedColour = _builder.mItemSelectedColour != 0 ? _builder.mItemSelectedColour : (this.mTheme == Theme.DARK ? Color.parseColor(DarkColours.POSITIVE.mColour) : Color.parseColor(LightColours.POSITIVE.mColour));
         this.mTitleAlignment = _builder.mTitleAlignment;
         this.mItemAlignment = _builder.mItemAlignment;
         this.mTitleTextSize = _builder.mTitleTextSize;
@@ -106,6 +114,11 @@ public class CustomListDialog extends BaseDialog {
 
         // Reference adapter used to populate the list view and then set it.
         mCustomListAdapter = new CustomListAdapter(mContext, R.layout.item_dialog_list, mItems);
+
+        if (mItemSelected > -1) {
+            mCustomListAdapter.setSelectedItem(mItemSelected);
+        }
+
         mListView.setAdapter(mCustomListAdapter);
 
         // Sets the view with the root view.
@@ -174,9 +187,10 @@ public class CustomListDialog extends BaseDialog {
 
         // Optional parameters initialised with default values.
         private Alignment mTitleAlignment = Alignment.LEFT, mItemAlignment = Alignment.LEFT;
-        private int mTitleColour = 0, mItemColour = 0, mTitleTextSize = 22, mItemTextSize = 18;
+        private int mTitleColour = 0, mItemColour = 0, mItemSelectedColour = 0, mTitleTextSize = 22, mItemTextSize = 18;
         private boolean mIsDark = false;
         private Typeface mTypeface;
+        private int mItemSelected = -1;
 
         public Builder typeface(Typeface _typeface){
             this.mTypeface = _typeface;
@@ -213,6 +227,11 @@ public class CustomListDialog extends BaseDialog {
             return this;
         }
 
+        public Builder itemSelectedColor(int _colour) {
+            this.mItemSelectedColour = _colour;
+            return this;
+        }
+
         public Builder titleColorRes(int _colour) {
             this.mTitleColour = mContext.getResources().getColor(_colour);
             return this;
@@ -243,6 +262,11 @@ public class CustomListDialog extends BaseDialog {
                 this.mTitleAlignment = Alignment.RIGHT;
                 this.mItemAlignment = Alignment.RIGHT;
             }
+            return this;
+        }
+
+        public Builder selectedItem(int position) {
+            this.mItemSelected = position;
             return this;
         }
 
