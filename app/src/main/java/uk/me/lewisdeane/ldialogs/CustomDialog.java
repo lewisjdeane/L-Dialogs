@@ -156,10 +156,12 @@ public class CustomDialog extends BaseDialog {
         mViews[2].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Call the method from our interface and dismiss.
+                // Call the method from our interface
+                // It should be left to the click handler to decide whether or not to dismiss
+                // the dialog, this is then in keeping with the default behaviour of Android's
+                // standard dialogs.
                 if (mCallbacks != null)
-                    mCallbacks.onConfirmClick();
-                dismiss();
+                    mCallbacks.onConfirmClick(CustomDialog.this);
             }
         });
 
@@ -167,10 +169,12 @@ public class CustomDialog extends BaseDialog {
         mViews[3].setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Call the method from our interface and dismiss.
+                // Call the method from our interface
+                // It should be left to the click handler to decide whether or not to dismiss
+                // the dialog, this is then in keeping with the default behaviour of Android's
+                // standard dialogs.
                 if (mCallbacks != null)
-                    mCallbacks.onCancelClick();
-                dismiss();
+                    mCallbacks.onCancelClick(CustomDialog.this);
             }
         });
     }
@@ -311,9 +315,9 @@ public class CustomDialog extends BaseDialog {
     }
 
     public interface ClickListener {
-        public void onConfirmClick();
+        public void onConfirmClick(CustomDialog customDialog);
 
-        public void onCancelClick();
+        public void onCancelClick(CustomDialog customDialog);
     }
 
     public static class Builder {
