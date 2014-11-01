@@ -298,6 +298,16 @@ public class CustomDialog extends BaseDialog {
     }
 
     public CustomDialog setCustomView(View _view) {
+        // Set weight of the custom view
+        if (_view.getLayoutParams() == null) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+            _view.setLayoutParams(params);
+        } else if (_view.getLayoutParams() instanceof LinearLayout.LayoutParams) {
+            ((LinearLayout.LayoutParams) _view.getLayoutParams()).weight = 1.0f;
+        }
+        
         // If there's a custom view present - remove it.
         if (mCustomView != null)
             ((ViewGroup) mViews[0].getParent()).removeView(mCustomView);
