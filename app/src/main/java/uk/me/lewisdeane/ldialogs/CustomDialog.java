@@ -30,7 +30,7 @@ public class CustomDialog extends BaseDialog {
     private View[] mViews = new View[4];
 
     // Array of strings to populate the corresponding view.
-    private String[] mStrings = new String[] { "", "", "", "" };
+    private String[] mStrings = new String[]{"", "", "", ""};
 
     // Array of linear layouts containing the 2 possible arrangements required
     // in case stacking needed.
@@ -66,12 +66,20 @@ public class CustomDialog extends BaseDialog {
     // boolean containing whether or not its intended to be right to left.
     private final boolean RTL;
 
+
+    /**
+     * TODO: Add option on whether to force stack buttons.
+     * TODO: If text overflows make it so it splits the buttons across the width.
+     * TODO: Negative button correct colour by default?
+     * TODO: Neutral Button.
+     */
+
     // We make our constructor private so we can only create it through the
     // builder inner class.
     private CustomDialog(Builder _builder) {
 
         // Call the super class to create our new dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? R.style.Dark : R.style.Light));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mDarkTheme ? R.style.LDialogs_Dark : R.style.LDialogs_Light));
 
         // Apply the things from the builder.
         this.mContext = _builder.mContext;
@@ -247,10 +255,10 @@ public class CustomDialog extends BaseDialog {
         }
 
         // Swap position of positive button and negative button if right to left required.
-        if(RTL){
+        if (RTL) {
             ((ViewGroup) mViews[3].getParent()).removeView(mViews[2]);
             ((ViewGroup) mViews[3].getParent()).addView(mViews[2], 0);
-    }
+        }
     }
 
     private int getIndexFromView(View _view) {
@@ -307,7 +315,7 @@ public class CustomDialog extends BaseDialog {
         } else if (_view.getLayoutParams() instanceof LinearLayout.LayoutParams) {
             ((LinearLayout.LayoutParams) _view.getLayoutParams()).weight = 1.0f;
         }
-        
+
         // If there's a custom view present - remove it.
         if (mCustomView != null)
             ((ViewGroup) mViews[0].getParent()).removeView(mCustomView);

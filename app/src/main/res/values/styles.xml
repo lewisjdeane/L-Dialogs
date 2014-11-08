@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Light" parent="android:Theme.Light">
+    <style name="LDialogs_Light" parent="android:Theme.Light">
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Dark" parent="android:Theme.Black">
+    <style name="LDialogs_Dark" parent="android:Theme.Black">
 
     </style>
 </resources>

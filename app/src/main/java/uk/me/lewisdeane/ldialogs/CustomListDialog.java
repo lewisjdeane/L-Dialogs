@@ -65,11 +65,17 @@ public class CustomListDialog extends BaseDialog {
     // Theme containing the chosen theme.
     static Theme mTheme = Theme.LIGHT;
 
+    /**
+     * TODO: Add ability for multi choice mode.
+     * TODO: Add radio buttons for single choice and checkboxes for multi choice.
+     * TODO: Add ability to set selected item(s).
+     */
+
     // Make this class private so it can only be built through the builder.
     private CustomListDialog(Builder _builder) {
 
         // Call super class constructor to create our dialog.
-        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? R.style.Dark : R.style.Light));
+        super(new ContextThemeWrapper(_builder.mContext, _builder.mIsDark ? R.style.LDialogs_Dark : R.style.LDialogs_Light));
 
         // Set correct properties.
         this.mContext = _builder.mContext;

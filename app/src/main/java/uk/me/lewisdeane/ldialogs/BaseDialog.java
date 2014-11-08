@@ -29,7 +29,7 @@ public abstract class BaseDialog extends AlertDialog {
         }
     }
 
-    static enum Theme {
+    public static enum Theme {
         LIGHT, DARK;
     }
 
