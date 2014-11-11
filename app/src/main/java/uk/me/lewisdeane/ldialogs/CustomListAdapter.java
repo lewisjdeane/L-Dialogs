@@ -16,6 +16,7 @@ class CustomListAdapter extends ArrayAdapter<String> {
 
     private int mRes;
     private String[] mItems;
+    private int mItemSelected = -1;
     private TextView mItemView;
 
     CustomListAdapter(Context _context, int _res, String[] _items){
@@ -23,6 +24,10 @@ class CustomListAdapter extends ArrayAdapter<String> {
 
         this.mRes = _res;
         this.mItems = _items;
+    }
+
+    protected void setSelectedItem(int position) {
+        this.mItemSelected = position;
     }
 
     @Override
@@ -44,7 +49,12 @@ class CustomListAdapter extends ArrayAdapter<String> {
         mItemView.setTypeface(CustomListDialog.mTypeface);
 
         try {
-            mItemView.setTextColor(CustomListDialog.mItemColour);
+            // try to set text color
+            if (position == mItemSelected) {
+                mItemView.setTextColor(CustomListDialog.mItemSelectedColour);
+            } else {
+                mItemView.setTextColor(CustomListDialog.mItemColour);
+            }
         } catch(Exception e){}
 
         return v;
