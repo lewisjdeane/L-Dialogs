@@ -48,8 +48,9 @@
     
             <Button
                 android:id="@+id/dialog_custom_cancel"
-                android:layout_width="88dp"
+                android:layout_width="0dp"
                 android:layout_height="36dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
                 android:background="@drawable/button_selector"
@@ -61,8 +62,9 @@
     
             <Button
                 android:id="@+id/dialog_custom_confirm"
-                android:layout_width="88dp"
+                android:layout_width="0dp"
                 android:layout_height="36dp"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:padding="8dp"
                 android:background="@drawable/button_selector"
