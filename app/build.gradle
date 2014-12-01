@@ -22,3 +22,19 @@ android {
 
 dependencies {
 }
+
+artifacts {
+    archives file('build/outputs/aar/app.aar')
+}
+
+apply plugin: 'maven'
+uploadArchives {
+    repositories {
+        mavenDeployer {
+            repository(url: uri("../../omada-nexus/release"))
+            pom.groupId = 'uk.me.lewisdeane.ldialogs'
+            pom.artifactId = 'ldialogs'
+            pom.version = project.VERSION_NAME
+        }
+    }
+}

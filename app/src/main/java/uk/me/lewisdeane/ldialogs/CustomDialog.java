@@ -66,6 +66,9 @@ public class CustomDialog extends BaseDialog {
     // boolean containing whether or not its intended to be right to left.
     private final boolean RTL;
 
+    //boolean to control whether button stacking should be enabled
+    private boolean setButtonStacking;
+
 
     /**
      * TODO: Add option on whether to force stack buttons.
@@ -101,6 +104,7 @@ public class CustomDialog extends BaseDialog {
         this.mButtonsAlignment = _builder.mButtonsAlignment;
         this.mTypeface = _builder.mTypeface;
         this.RTL = _builder.RTL;
+        this.setButtonStacking = _builder.setButtonStacking;
         this.mPositiveBackground = _builder.mPositiveBackground;
 
         // Set up references to views and then set the view.
@@ -185,10 +189,16 @@ public class CustomDialog extends BaseDialog {
 
     private void checkIfButtonStackingNeeded() {
         // Check if the text on the button is too big for the button.
-        boolean isStackingNeeded = ((Button) mViews[2]).getPaint().measureText(
-                ((Button) mViews[2]).getText().toString()) > convertToPx(56)
-                || ((Button) mViews[2]).getPaint().measureText(
-                ((Button) mViews[3]).getText().toString()) > convertToPx(56);
+        boolean isStackingNeeded;
+
+        if(setButtonStacking){
+            isStackingNeeded = ((Button) mViews[2]).getPaint().measureText(
+                    ((Button) mViews[2]).getText().toString()) > convertToPx(56)
+                    || ((Button) mViews[2]).getPaint().measureText(
+                    ((Button) mViews[3]).getText().toString()) > convertToPx(56);
+        }else{
+            isStackingNeeded = false;
+        }
 
         // Toggle visibility of the layouts based on whether switching is
         // needed.
@@ -196,6 +206,8 @@ public class CustomDialog extends BaseDialog {
                 : View.VISIBLE);
         mButtonContainers[1].setVisibility(isStackingNeeded ? View.VISIBLE
                 : View.GONE);
+
+
 
         // Now the data may have changed we need to re-reference the buttons.
         updateButtonReferences(isStackingNeeded);
@@ -213,6 +225,8 @@ public class CustomDialog extends BaseDialog {
         // Apply the data to the newly referenced views.
         setViewProperties(mViews, mStrings);
     }
+
+
 
     private float convertToPx(float _dp) {
         // Convert any density pixel value to it's corresponding pixel value.
@@ -369,6 +383,7 @@ public class CustomDialog extends BaseDialog {
                 mButtonTextSize = 14;
         private boolean mDarkTheme = false;
         private boolean RTL = false;
+        private boolean setButtonStacking = true;
 
         private Alignment mTitleAlignment = Alignment.LEFT;
         private Alignment mContentAlignment = Alignment.LEFT;
@@ -403,6 +418,11 @@ public class CustomDialog extends BaseDialog {
 
         public Builder titleColor(String _colour) {
             this.mTitleColour = Color.parseColor(_colour);
+            return this;
+        }
+
+        public Builder setButtonStacking(boolean stackable){
+            this.setButtonStacking = stackable;
             return this;
         }
 
