@@ -167,7 +167,6 @@ public class CustomDialog extends BaseDialog {
                 // Call the method from our interface and dismiss.
                 if (mCallbacks != null)
                     mCallbacks.onConfirmClick();
-                dismiss();
             }
         });
 
@@ -178,7 +177,6 @@ public class CustomDialog extends BaseDialog {
                 // Call the method from our interface and dismiss.
                 if (mCallbacks != null)
                     mCallbacks.onCancelClick();
-                dismiss();
             }
         });
     }
