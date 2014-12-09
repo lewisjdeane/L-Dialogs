@@ -166,8 +166,8 @@ public class CustomDialog extends BaseDialog {
             public void onClick(View view) {
                 // Call the method from our interface and dismiss.
                 if (mCallbacks != null)
-                    mCallbacks.onConfirmClick();
-                dismiss();
+                    if(mCallbacks.onConfirmClick())
+                        dismiss();
             }
         });
 
@@ -177,8 +177,8 @@ public class CustomDialog extends BaseDialog {
             public void onClick(View view) {
                 // Call the method from our interface and dismiss.
                 if (mCallbacks != null)
-                    mCallbacks.onCancelClick();
-                dismiss();
+                    if(mCallbacks.onCancelClick())
+                        dismiss();
             }
         });
     }
@@ -329,9 +329,9 @@ public class CustomDialog extends BaseDialog {
     }
 
     public interface ClickListener {
-        public void onConfirmClick();
+        public boolean onConfirmClick();
 
-        public void onCancelClick();
+        public boolean onCancelClick();
     }
 
     public static class Builder {
